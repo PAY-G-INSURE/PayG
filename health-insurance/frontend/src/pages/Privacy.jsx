@@ -17,21 +17,21 @@ const sections = [
 
 export default function Privacy() {
   return (
-    <div className="min-h-screen bg-[#0D1117] text-[#F0F6FC]">
+    <div className="min-h-screen bg-[#0A1F12] text-[#F0F6FC]">
       <PageHeader title="Privacy Policy" subtitle="Last updated: January 1, 2026"/>
 
       <div className="px-5 lg:px-8 pt-6 pb-16 max-w-4xl mx-auto lg:mx-0">
 
         {/* Badges row with dark treatment styling */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-          <div className="bg-[#161B22] border border-[#2DD4BF]/10 rounded-2xl p-4 flex gap-2 items-start">
-            <span className="icon text-[#2DD4BF] text-xl flex-shrink-0 mt-0.5">privacy_tip</span>
+          <div className="bg-[#102A18] border border-[#65C37A]/10 rounded-2xl p-4 flex gap-2 items-start">
+            <span className="icon text-[#65C37A] text-xl flex-shrink-0 mt-0.5">privacy_tip</span>
             <p className="text-xs text-[#8B949E] font-display leading-relaxed">
               Your privacy matters to us. This policy explains exactly what data we collect, why, and how you can control it.
             </p>
           </div>
-          <div className="flex items-center gap-3 bg-[#161B22] border border-[#30363D] rounded-2xl p-4">
-            <span className="icon text-[#2DD4BF] text-2xl">verified_user</span>
+          <div className="flex items-center gap-3 bg-[#102A18] border border-[#2D4D35] rounded-2xl p-4">
+            <span className="icon text-[#65C37A] text-2xl">verified_user</span>
             <div>
               <p className="text-xs font-display font-bold text-[#F0F6FC]">NDPR Compliant</p>
               <p className="text-[10px] text-[#8B949E]">Nigeria Data Protection Regulation & Data Protection Act 2023</p>
@@ -43,19 +43,19 @@ export default function Privacy() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-7">
           {sections.map((s, i) => (
             <div key={i} className={s.title.startsWith('1.') || s.title.startsWith('2.') ? 'lg:col-span-2' : ''}>
-              <h3 className="font-display font-bold text-[#2DD4BF] text-base mb-2">{s.title}</h3>
+              <h3 className="font-display font-bold text-[#65C37A] text-base mb-2">{s.title}</h3>
               <p className="text-sm text-[#8B949E] leading-relaxed whitespace-pre-line">{s.body}</p>
             </div>
           ))}
         </div>
 
         {/* Footer Area Action Anchors */}
-        <div className="mt-10 pt-6 border-t border-[#30363D] flex flex-wrap gap-5 items-center">
+        <div className="mt-10 pt-6 border-t border-[#2D4D35] flex flex-wrap gap-5 items-center">
           <p className="text-xs text-[#8B949E] font-display">Related:</p>
-          <Link to="/terms" className="text-xs text-[#2DD4BF] font-display font-bold hover:underline flex items-center gap-1">
+          <Link to="/terms" className="text-xs text-[#65C37A] font-display font-bold hover:underline flex items-center gap-1">
             <span className="icon-o text-sm">description</span> Terms of Service
           </Link>
-          <a href="mailto:privacy@payg.ng" className="text-xs text-[#2DD4BF] font-display font-bold hover:underline flex items-center gap-1">
+          <a href="mailto:privacy@payg.ng" className="text-xs text-[#65C37A] font-display font-bold hover:underline flex items-center gap-1">
             <span className="icon-o text-sm">mail</span> Contact DPO
           </a>
         </div>

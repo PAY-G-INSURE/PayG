@@ -107,7 +107,7 @@ export default function Plans() {
                   }}
                 >
                   {plan.featured && (
-                    <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, var(--primary), var(--teal))' }}></div>
+                    <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: 'var(--t6)' }}></div>
                   )}
 
                   <div>
@@ -219,7 +219,7 @@ export default function Plans() {
               onClick={handleConfirm} 
               disabled={saving || saved}
               className="w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider text-white transition-all active:scale-95 flex items-center justify-center gap-2"
-              style={{ background: saved ? 'var(--teal)' : 'linear-gradient(90deg, var(--primary), var(--primary-light))' }}
+              style={{ background: saved ? 'var(--teal)' : 'var(--t6)' }}
             >
               {saving ? (
                 <>

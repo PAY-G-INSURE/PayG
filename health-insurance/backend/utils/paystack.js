@@ -37,11 +37,13 @@ const paystack = {
   // Verify webhook signature — CRITICAL for security
   // Paystack signs every webhook with your secret key
   verifyWebhookSignature: (rawBody, signature) => {
+    if (!process.env.PAYSTACK_SECRET_KEY || !Buffer.isBuffer(rawBody) || typeof signature !== 'string') return false
     const hash = crypto
       .createHmac('sha512', process.env.PAYSTACK_SECRET_KEY)
       .update(rawBody)
-      .digest('hex')
-    return hash === signature
+      .digest()
+    const supplied = Buffer.from(signature, 'hex')
+    return supplied.length === hash.length && crypto.timingSafeEqual(hash, supplied)
   },
 }
 

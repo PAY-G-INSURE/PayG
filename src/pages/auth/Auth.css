@@ -13,7 +13,7 @@
   display: flex; flex-direction: column; gap: 0;
 }
 .auth-page__right {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 55%, var(--teal-dark) 100%);
+  background: var(--primary-dark);
   display: flex; align-items: center; justify-content: center;
   padding: 3rem;
 }

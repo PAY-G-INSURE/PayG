@@ -5,7 +5,7 @@ const Claim = require('../models/Claim')
 const Subscription = require('../models/Subscription')
 const { protect } = require('../middleware/auth')
 const notif = require('../utils/notifications')
-const { sendSMS, smsTemplates } = require('../utils/sms')
+const { sendClaimSubmitted } = require('../utils/sms')
 
 const router = express.Router()
 
@@ -75,7 +75,7 @@ router.post(
       await notif.claimSubmitted(req.user._id, claim.ref)
 
       if (req.user.phone) {
-        await sendSMS(req.user.phone, smsTemplates.claimSubmitted(claim.ref))
+        await sendClaimSubmitted(req.user.phone, claim.ref)
       }
 
       res.status(201).json({

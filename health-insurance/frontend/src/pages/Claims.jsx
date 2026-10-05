@@ -5,10 +5,10 @@ import AppLayout from '../components/AppLayout.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 
 const T = {
-  s0: '#0D1117', s1: '#161B22', s2: '#21262D',
-  t4: '#2DD4BF', t6: '#0D9488',
-  ink: '#F0F6FC', muted: '#8B949E', border: '#30363D',
-  green: '#34D399', orange: '#FB923C', red: '#F87171',
+  s0: '#0A1F12', s1: '#102A18', s2: '#173A23',
+  t4: '#65C37A', t6: '#27833D',
+  ink: '#F0F6FC', muted: '#8B949E', border: '#2D4D35',
+  green: '#5FBA72', orange: '#9DBB75', red: '#F87171',
 }
 
 const css = `
@@ -19,7 +19,7 @@ const css = `
     border-radius: 20px; padding: 20px;
     transition: border-color 0.2s;
   }
-  .claim-card:hover { border-color: rgba(45,212,191,0.2); }
+  .claim-card:hover { border-color: rgba(101,195,122,0.2); }
   .claim-type-btn {
     padding: 10px 4px; border-radius: 12px;
     border: 1.5px solid ${T.border};
@@ -28,7 +28,7 @@ const css = `
     cursor: pointer; transition: all 0.18s;
   }
   .claim-type-btn.selected {
-    border-color: ${T.t4}; background: rgba(45,212,191,0.08); color: ${T.t4};
+    border-color: ${T.t4}; background: rgba(101,195,122,0.08); color: ${T.t4};
   }
   .claim-textarea {
     width: 100%; background: ${T.s2}; border: 1.5px solid ${T.border};
@@ -49,8 +49,8 @@ const css = `
   .claim-input::placeholder { color: ${T.muted}; }
   .err { border-color: ${T.red} !important; }
   .teal-btn {
-    flex: 1; background: linear-gradient(135deg, ${T.t4}, ${T.t6});
-    color: #0D1117; font-weight: 800; font-size: 14px; font-family: inherit;
+    flex: 1; background: var(--t6);
+    color: #0A1F12; font-weight: 800; font-size: 14px; font-family: inherit;
     border: none; border-radius: 14px; height: 50px; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: opacity 0.18s;
@@ -75,11 +75,11 @@ const css = `
 const CLAIM_TYPES = ['Outpatient', 'Inpatient', 'Pharmacy', 'Lab', 'Dental', 'Optical', 'Emergency', 'Other']
 
 const STATUS_CFG = {
-  submitted:    { label: 'Submitted',    bg: 'rgba(45,212,191,0.1)',  color: '#2DD4BF',  icon: 'schedule' },
-  under_review: { label: 'Under Review', bg: 'rgba(251,146,60,0.1)',  color: '#FB923C',  icon: 'manage_search' },
-  approved:     { label: 'Approved',     bg: 'rgba(52,211,153,0.1)',  color: '#34D399',  icon: 'check_circle' },
+  submitted:    { label: 'Submitted',    bg: 'rgba(101,195,122,0.1)',  color: '#65C37A',  icon: 'schedule' },
+  under_review: { label: 'Under Review', bg: 'rgba(251,146,60,0.1)',  color: '#9DBB75',  icon: 'manage_search' },
+  approved:     { label: 'Approved',     bg: 'rgba(52,211,153,0.1)',  color: '#5FBA72',  icon: 'check_circle' },
   rejected:     { label: 'Rejected',     bg: 'rgba(248,113,113,0.1)', color: '#F87171',  icon: 'cancel' },
-  paid:         { label: 'Paid',         bg: 'rgba(52,211,153,0.1)',  color: '#34D399',  icon: 'payments' },
+  paid:         { label: 'Paid',         bg: 'rgba(52,211,153,0.1)',  color: '#5FBA72',  icon: 'payments' },
 }
 
 const label = (text) => (
@@ -127,8 +127,8 @@ export default function Claims() {
         subtitle={`${claims.length} total claim${claims.length !== 1 ? 's' : ''}`}
         right={
           <button onClick={() => setShowForm(true)} style={{
-            background: `linear-gradient(135deg, ${T.t4}, ${T.t6})`,
-            color: '#0D1117', fontWeight: 800, fontSize: 13, fontFamily: 'inherit',
+            background: `var(--t6)`,
+            color: '#0A1F12', fontWeight: 800, fontSize: 13, fontFamily: 'inherit',
             border: 'none', borderRadius: 12, padding: '9px 16px',
             cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
           }}>
@@ -150,8 +150,8 @@ export default function Claims() {
               Submit a claim for any medical expenses covered under your {subscription.plan} plan.
             </p>
             <button onClick={() => setShowForm(true)} style={{
-              background: `linear-gradient(135deg, ${T.t4}, ${T.t6})`,
-              color: '#0D1117', fontWeight: 800, fontSize: 14, fontFamily: 'inherit',
+              background: `var(--t6)`,
+              color: '#0A1F12', fontWeight: 800, fontSize: 14, fontFamily: 'inherit',
               border: 'none', borderRadius: 14, padding: '12px 24px', cursor: 'pointer',
               display: 'inline-flex', alignItems: 'center', gap: 8,
             }}>
@@ -210,7 +210,7 @@ export default function Claims() {
         {/* Info */}
         <div style={{
           marginTop: 20, padding: '14px 16px',
-          background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.2)',
+          background: 'rgba(101,195,122,0.07)', border: '1px solid rgba(101,195,122,0.2)',
           borderRadius: 14, display: 'flex', gap: 12, alignItems: 'flex-start',
         }}>
           <span className="icon" style={{ color: T.t4, fontSize: 18, flexShrink: 0 }}>info</span>
@@ -285,7 +285,7 @@ export default function Claims() {
               <button onClick={handleSubmit} disabled={submitting || submitted}
                 className={submitted ? 'green-btn' : 'teal-btn'}>
                 {submitting
-                  ? <><span className="claim-spin" style={{ width: 16, height: 16, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#0D1117', borderRadius: '50%' }} />Submitting…</>
+                  ? <><span className="claim-spin" style={{ width: 16, height: 16, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#0A1F12', borderRadius: '50%' }} />Submitting…</>
                   : submitted
                   ? <><span className="icon" style={{ fontSize: 16 }}>check_circle</span>Submitted!</>
                   : <><span className="icon-o">send</span>Submit Claim</>}

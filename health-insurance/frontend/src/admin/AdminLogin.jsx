@@ -12,37 +12,33 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
-    setTimeout(() => {
-      const ok = adminLogin(username.trim(), password);
-      if (ok) {
-        navigate("/x/admin", { replace: true });
-      } else {
-        setError("Invalid credentials.");
-        setLoading(false);
-      }
-    }, 600);
+    try {
+      await adminLogin(username, password);
+      navigate("/x/admin", { replace: true });
+    } catch (e) {
+      setError(e.message || "Invalid credentials.");
+      setLoading(false);
+    }
   }
 
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#0a0a0f",
+      background: "#0A1F12",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontFamily: "'DM Sans', sans-serif",
+      fontFamily: "'Inter', sans-serif",
       padding: "24px",
     }}>
       {/* Background grid */}
       <div style={{
         position: "fixed", inset: 0, zIndex: 0,
-        backgroundImage: `linear-gradient(rgba(37,99,235,0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(37,99,235,0.05) 1px, transparent 1px)`,
-        backgroundSize: "40px 40px",
+        backgroundImage: "none",
       }} />
 
       <div style={{
@@ -53,13 +49,13 @@ export default function AdminLogin() {
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "10px",
-            background: "rgba(37,99,235,0.1)",
-            border: "1px solid rgba(37,99,235,0.3)",
+            background: "rgba(39,131,61,0.1)",
+            border: "1px solid rgba(39,131,61,0.3)",
             borderRadius: "12px",
             padding: "10px 20px",
             marginBottom: "20px",
           }}>
-            <span style={{ fontSize: "20px", fontWeight: 800, color: "#2563EB", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>PAYG</span>
+            <span style={{ fontSize: "20px", fontWeight: 800, color: "#27833D", fontFamily: "'Inter', sans-serif" }}>PAYG</span>
             <span style={{
               fontSize: "10px", fontWeight: 600, letterSpacing: "0.15em",
               color: "#6B7280", background: "rgba(107,114,128,0.1)",
@@ -80,7 +76,7 @@ export default function AdminLogin() {
         }}>
           <h1 style={{
             color: "#fff", fontSize: "22px", fontWeight: 700,
-            margin: "0 0 28px", fontFamily: "'Plus Jakarta Sans', sans-serif",
+            margin: "0 0 28px", fontFamily: "'Inter', sans-serif",
           }}>Sign in</h1>
 
           <form onSubmit={handleSubmit}>
@@ -106,7 +102,7 @@ export default function AdminLogin() {
                   outline: "none",
                   transition: "border-color 0.2s",
                 }}
-                onFocus={e => e.target.style.borderColor = "#2563EB"}
+                onFocus={e => e.target.style.borderColor = "#27833D"}
                 onBlur={e => e.target.style.borderColor = error ? "#ef4444" : "#1e1e2e"}
               />
             </div>
@@ -132,7 +128,7 @@ export default function AdminLogin() {
                     fontSize: "14px",
                     outline: "none",
                   }}
-                  onFocus={e => e.target.style.borderColor = "#2563EB"}
+                  onFocus={e => e.target.style.borderColor = "#27833D"}
                   onBlur={e => e.target.style.borderColor = error ? "#ef4444" : "#1e1e2e"}
                 />
                 <button
@@ -171,7 +167,7 @@ export default function AdminLogin() {
               disabled={loading || !username || !password}
               style={{
                 width: "100%",
-                background: loading ? "#1e3a8a" : "#2563EB",
+                background: loading ? "#1e3a8a" : "#27833D",
                 color: "#fff",
                 border: "none",
                 borderRadius: "10px",
@@ -179,7 +175,7 @@ export default function AdminLogin() {
                 fontSize: "15px",
                 fontWeight: 700,
                 cursor: loading ? "not-allowed" : "pointer",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 transition: "background 0.2s",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
               }}

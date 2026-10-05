@@ -1,12 +1,12 @@
 /* ── Hero ── */
 .plans-hero {
   position: relative;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--teal-dark) 100%);
+  background: var(--primary-dark);
   padding: 8rem 0 6rem;
   text-align: center;
   overflow: hidden;
 }
-.plans-hero__blobs { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.plans-hero__blobs { display: none; }
 .plans-hero__blob  { position: absolute; border-radius: 50%; filter: blur(80px); opacity: .13; }
 .plans-hero__blob--1 { width: 500px; height: 500px; background: var(--orange); top: -150px; right: -80px; }
 .plans-hero__blob--2 { width: 400px; height: 400px; background: var(--primary-light); bottom: -100px; left: -60px; }

@@ -12,12 +12,7 @@
   pointer-events: none;
 }
 
-.hero__blobs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
+.hero__blobs { display: none; }
 
 .hero__blob {
   position: absolute;
@@ -151,9 +146,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center,
-      rgba(15, 118, 110, .18) 0%,
-      transparent 68%);
+  background: none;
 }
 
 .hero__scroll-hint {
@@ -251,7 +244,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--error), #ff7b7b);
+  background: var(--error);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .35s ease;
@@ -317,7 +310,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--teal));
+  background: var(--primary);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .35s ease;
@@ -391,7 +384,7 @@
   left: calc(100% - 1.5rem);
   width: 3rem;
   height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--teal));
+  background: var(--primary);
   opacity: .3;
   transform-origin: left;
 }
@@ -411,10 +404,7 @@
 
 /* ── CTA Banner ── */
 .cta-banner {
-  background: linear-gradient(135deg,
-      var(--primary) 0%,
-      var(--primary-dark) 55%,
-      var(--teal-dark) 100%);
+  background: var(--primary-dark);
   padding: 7rem 0;
   position: relative;
   overflow: hidden;
@@ -424,9 +414,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 25% 50%,
-      rgba(15, 118, 110, .22) 0%,
-      transparent 62%);
+  background: none;
   pointer-events: none;
 }
 

@@ -1,56 +1,34 @@
-// src/admin/adminApi.js
-// All admin API calls — connects frontend to /api/admin/* backend routes
+const BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+const TOKEN_KEY = 'payg_admin_token'
 
-const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
-
-// The admin token must match ADMIN_SECRET_TOKEN in your backend .env
-const TOKEN = import.meta.env.VITE_ADMIN_TOKEN || "payg-admin-secret";
-
-async function adminFetch(path, options = {}) {
-  const res = await fetch(`${BASE}/admin${path}`, {
+async function fetchJson(path, options = {}, token = sessionStorage.getItem(TOKEN_KEY)) {
+  if (!BASE) throw new Error('API is not configured. Set VITE_API_BASE_URL.')
+  const response = await fetch(`${BASE}/admin${path}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
-      "x-admin-token": TOKEN,
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Request failed");
-  return data;
+  })
+  const data = await response.json().catch(() => ({ message: 'Request failed' }))
+  if (!response.ok) throw new Error(data.message || 'Request failed')
+  return data
 }
 
-// ─── STATS ────────────────────────────────────────────────────────────────────
-export const getStats = () => adminFetch("/stats");
+export const loginAdmin = (username, password) => fetchJson('/auth/login', {
+  method: 'POST', body: JSON.stringify({ username, password }),
+}, null)
+export const verifyAdmin = () => fetchJson('/auth/me')
+export const adminFetch = (path, options) => fetchJson(path, options)
 
-// ─── USERS ────────────────────────────────────────────────────────────────────
-export const getUsers = (params = {}) => {
-  const q = new URLSearchParams(params).toString();
-  return adminFetch(`/users?${q}`);
-};
-export const getUserDetail = (id) => adminFetch(`/users/${id}`);
-export const updateUser = (id, body) =>
-  adminFetch(`/users/${id}`, { method: "PATCH", body: JSON.stringify(body) });
-
-// ─── CLAIMS ───────────────────────────────────────────────────────────────────
-export const getClaims = (params = {}) => {
-  const q = new URLSearchParams(params).toString();
-  return adminFetch(`/claims?${q}`);
-};
-export const updateClaim = (id, body) =>
-  adminFetch(`/claims/${id}`, { method: "PATCH", body: JSON.stringify(body) });
-
-// ─── TRANSACTIONS ─────────────────────────────────────────────────────────────
-export const getTransactions = (params = {}) => {
-  const q = new URLSearchParams(params).toString();
-  return adminFetch(`/transactions?${q}`);
-};
-
-// ─── SUBSCRIPTIONS ────────────────────────────────────────────────────────────
-export const getSubscriptionSummary = () => adminFetch("/subscriptions/summary");
-export const adjustWallet = (userId, body) =>
-  adminFetch(`/subscriptions/${userId}/wallet`, { method: "PATCH", body: JSON.stringify(body) });
-
-// ─── BROADCAST ────────────────────────────────────────────────────────────────
-export const sendBroadcast = (body) =>
-  adminFetch("/broadcast", { method: "POST", body: JSON.stringify(body) });
+export const getStats = () => adminFetch('/stats')
+export const getUsers = (params = {}) => adminFetch(`/users?${new URLSearchParams(params)}`)
+export const getUserDetail = id => adminFetch(`/users/${id}`)
+export const updateUser = (id, body) => adminFetch(`/users/${id}`, { method: 'PATCH', body: JSON.stringify(body) })
+export const getClaims = (params = {}) => adminFetch(`/claims?${new URLSearchParams(params)}`)
+export const updateClaim = (id, body) => adminFetch(`/claims/${id}`, { method: 'PATCH', body: JSON.stringify(body) })
+export const getTransactions = (params = {}) => adminFetch(`/transactions?${new URLSearchParams(params)}`)
+export const getSubscriptionSummary = () => adminFetch('/subscriptions/summary')
+export const adjustWallet = (userId, body) => adminFetch(`/subscriptions/${userId}/wallet`, { method: 'PATCH', body: JSON.stringify(body) })
+export const sendBroadcast = body => adminFetch('/broadcast', { method: 'POST', body: JSON.stringify(body) })

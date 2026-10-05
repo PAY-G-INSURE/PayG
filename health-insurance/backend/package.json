@@ -1,7 +1,7 @@
 {
   "name": "payg-health-insurance-backend",
   "version": "1.0.0",
-  "description": "PAYG Health Insurance \u2014 Node.js/Express API",
+  "description": "PAYG Health Insurance — Node.js/Express API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -18,7 +18,6 @@
     "express-validator": "^7.0.1",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.2.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {

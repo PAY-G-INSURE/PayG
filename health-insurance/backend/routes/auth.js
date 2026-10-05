@@ -6,7 +6,7 @@ const crypto = require('crypto')
 const User = require('../models/User')
 const Subscription = require('../models/Subscription')
 const { signToken, protect } = require('../middleware/auth')
-const { sendSMS, smsTemplates } = require('../utils/sms')
+const { sendOTP, sendWelcome } = require('../utils/sms')
 const notif = require('../utils/notifications')
 
 const router = express.Router()
@@ -45,6 +45,7 @@ router.post(
     if (!phone && !email) {
       return res.status(400).json({ success: false, message: 'Phone number or email is required' })
     }
+    if (email) return res.status(501).json({ success: false, message: 'Email verification is not available. Sign in with your phone number.' })
 
     try {
       // Find or create user
@@ -77,7 +78,8 @@ router.post(
 
       // Send OTP via SMS (phone) or log (email — wire up Nodemailer/SendGrid later)
       if (phone) {
-        await sendSMS(phone, smsTemplates.otp(otp))
+        const sent = await sendOTP(phone, otp)
+        if (!sent.success) return res.status(503).json({ success: false, message: 'Unable to send the verification code. Please try again later.' })
       } else {
         // TODO: send email OTP via Nodemailer/SendGrid
         console.log(`📧 [EMAIL OTP] To: ${email} — Code: ${otp}`)
@@ -99,6 +101,7 @@ router.post(
 // ─── POST /api/auth/verify-otp ───────────────────────────────────────────────
 router.post(
   '/verify-otp',
+  otpLimiter,
   [
     body('otp').isLength({ min: 4, max: 4 }).isNumeric().withMessage('OTP must be 4 digits'),
   ],
@@ -121,6 +124,10 @@ router.post(
         return res.status(404).json({ success: false, message: 'User not found' })
       }
 
+      if (user.otpAttempts >= 3) {
+        return res.status(429).json({ success: false, message: 'Too many incorrect codes. Request a new verification code.' })
+      }
+
       // Increment attempt counter
       user.otpAttempts = (user.otpAttempts || 0) + 1
       await user.save()
@@ -139,8 +146,8 @@ router.post(
       }
 
       // Clear OTP fields
-      user.otp = undefined
-      user.otpExpiresAt = undefined
+      user.otp = null
+      user.otpExpiresAt = null
       user.otpAttempts = 0
       user.isVerified = true
       await user.save()
@@ -209,11 +216,16 @@ router.put(
         req.user._id,
         { firstName, lastName, dateOfBirth, gender, kinName, kinPhone, kinRelation, isOnboarded: true },
         { new: true, runValidators: true }
-      ).select('-otp -otpExpiresAt -otpAttempts')
+      )
+
+      if (!user) return res.status(404).json({ success: false, message: 'User not found' })
+      delete user.otp
+      delete user.otpExpiresAt
+      delete user.otpAttempts
 
       // Send welcome SMS
       if (user.phone) {
-        await sendSMS(user.phone, smsTemplates.welcome(firstName))
+        await sendWelcome(user.phone, firstName)
       }
 
       res.json({ success: true, user })

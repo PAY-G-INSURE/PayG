@@ -15,7 +15,7 @@ const protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
     // Attach user to request (exclude OTP fields)
-    const user = await User.findById(decoded.id).select('-otp -otpExpiresAt -otpAttempts')
+    const user = await User.findById(decoded.id)
     if (!user) {
       return res.status(401).json({ success: false, message: 'User no longer exists' })
     }
@@ -23,6 +23,9 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Account has been deactivated' })
     }
 
+    delete user.otp
+    delete user.otpExpiresAt
+    delete user.otpAttempts
     req.user = user
     next()
   } catch (err) {

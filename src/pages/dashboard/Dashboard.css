@@ -188,7 +188,7 @@
 
 /* ── Welcome banner ── */
 .dash-welcome {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--teal-dark) 100%);
+  background: var(--primary-dark);
   border-radius: var(--radius-xl); padding: 2rem 2.25rem;
   margin-bottom: 1.75rem; color: #fff;
 }

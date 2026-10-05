@@ -1,112 +1,37 @@
-const mongoose = require('mongoose')
+const { model, fieldsToDb } = require('../utils/modelCompat')
+const { db } = require('../utils/db')
 
-const PLANS = {
-  Basic:    { price: 500,  id: 1 },
-  Standard: { price: 1000, id: 2 },
-  Premium:  { price: 2000, id: 3 },
+const PLANS = { Basic: { price: 500, id: 1 }, Standard: { price: 1000, id: 2 }, Premium: { price: 2000, id: 3 } }
+
+function decorate(row) {
+  if (!row) return row
+  const subscription = { ...row }
+  Object.defineProperties(subscription, {
+    planPrice: { enumerable: true, get: () => PLANS[subscription.plan]?.price || 0 },
+    remainingBalance: { enumerable: true, get: () => Math.max(0, (PLANS[subscription.plan]?.price || 0) - Number(subscription.walletBalance || 0)) },
+    daysUntilExpiry: { enumerable: true, get: () => subscription.coverageEndDate ? Math.max(0, Math.ceil((new Date(subscription.coverageEndDate) - Date.now()) / 86400000)) : 0 },
+  })
+  subscription.refreshStatus = function () {
+    const price = PLANS[this.plan]?.price || 0
+    if (Number(this.walletBalance) >= price) {
+      this.status = 'active'
+      if (!this.coverageStartDate) this.coverageStartDate = new Date().toISOString()
+      const end = new Date(); end.setMonth(end.getMonth() + 1); end.setDate(1); end.setHours(0, 0, 0, 0)
+      this.coverageEndDate = end.toISOString()
+      this.lapsedAt = null
+    } else if (Number(this.walletBalance) > 0) this.status = 'pending'
+    else this.status = 'inactive'
+  }
+  subscription.save = async function () {
+    const values = { ...this }
+    for (const key of ['_id', 'planPrice', 'remainingBalance', 'daysUntilExpiry', 'refreshStatus', 'save']) delete values[key]
+    const rows = await db.update('subscriptions', { id: `eq.${this._id}` }, fieldsToDb(values))
+    if (rows[0]) Object.assign(this, rows[0])
+    return this
+  }
+  return subscription
 }
 
-const subscriptionSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-      unique: true,
-    },
-
-    plan: {
-      type: String,
-      enum: ['Basic', 'Standard', 'Premium'],
-      default: 'Basic',
-    },
-
-    status: {
-      type: String,
-      enum: ['active', 'pending', 'inactive', 'lapsed'],
-      default: 'pending',
-    },
-
-    // Wallet: amount paid toward current month's premium
-    walletBalance: { type: Number, default: 0, min: 0 },
-
-    // Coverage window
-    coverageStartDate: { type: Date },
-    coverageEndDate:   { type: Date },
-
-    // Grace period tracking
-    lapsedAt:      { type: Date },
-    gracePeriodEnd: { type: Date },
-
-    // Unique policy number
-    policyNumber: {
-      type: String,
-      unique: true,
-    },
-
-    // Cancellation
-    cancelledAt:     { type: Date },
-    cancellationNote: { type: String },
-
-    airtimeDeduction: {
-      enabled: { type: Boolean, default: false },
-      percentage: { type: Number, default: 10 },
-      network: { type: String, default: null },
-      updatedAt: { type: Date },
-    },
-  },
-  {
-    timestamps: true,
-    toJSON: { virtuals: true },
-  }
-)
-
-// Virtual: price based on plan
-subscriptionSchema.virtual('planPrice').get(function () {
-  return PLANS[this.plan]?.price || 0
-})
-
-// Virtual: remaining amount needed
-subscriptionSchema.virtual('remainingBalance').get(function () {
-  return Math.max(0, this.planPrice - this.walletBalance)
-})
-
-// Virtual: days until coverage expires
-subscriptionSchema.virtual('daysUntilExpiry').get(function () {
-  if (!this.coverageEndDate) return 0
-  const diff = new Date(this.coverageEndDate) - new Date()
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
-})
-
-// Auto-generate policy number before first save
-subscriptionSchema.pre('save', async function (next) {
-  if (!this.policyNumber) {
-    const year = new Date().getFullYear()
-    const count = await mongoose.model('Subscription').countDocuments()
-    this.policyNumber = `PAYG-${year}-${String(count + 1).padStart(6, '0')}`
-  }
-  next()
-})
-
-// Update status based on wallet balance
-subscriptionSchema.methods.refreshStatus = function () {
-  const planPrice = PLANS[this.plan]?.price || 0
-  if (this.walletBalance >= planPrice) {
-    this.status = 'active'
-    if (!this.coverageStartDate) this.coverageStartDate = new Date()
-    // Set/extend coverage end to end of current month
-    const end = new Date()
-    end.setMonth(end.getMonth() + 1)
-    end.setDate(1)
-    end.setHours(0, 0, 0, 0)
-    this.coverageEndDate = end
-    this.lapsedAt = undefined
-  } else if (this.walletBalance > 0) {
-    this.status = 'pending'
-  } else {
-    this.status = 'inactive'
-  }
-}
-
-module.exports = mongoose.model('Subscription', subscriptionSchema)
+const Subscription = model('subscriptions', { decorate })
+module.exports = Subscription
 module.exports.PLANS = PLANS

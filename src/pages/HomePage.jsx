@@ -75,35 +75,35 @@ function AnimatedLogo() {
 const heroSlides = [
   {
     eyebrow: 'For Market Traders',
-    heading: 'Insurance That\nFits How You Earn',
-    sub: 'Pay-as-you-go coverage designed for traders, artisans, and everyday Africans with flexible income.',
+    heading: 'Health Cover for\nThe Way You Work',
+    sub: 'Flexible health contributions for traders, artisans, and people with irregular income.',
     cta: 'Get Started',
     ctaPath: '/join',
-    bg: 'linear-gradient(135deg, #1E3A8A 0%, #162d6e 55%, #0a5c56 100%)',
+    bg: 'var(--primary-dark)',
   },
   {
     eyebrow: 'For Cooperatives',
-    heading: 'Group Protection\nMade Simple',
-    sub: 'Pool contributions with your cooperative or trade union and unlock affordable coverage for every member.',
+    heading: 'Health Cover for\nOrganised Groups',
+    sub: 'Coordinate health contributions through your cooperative or trade union.',
     cta: 'For Cooperatives',
     ctaPath: '/plans',
-    bg: 'linear-gradient(135deg, #0F766E 0%, #0a5c56 55%, #1E3A8A 100%)',
+    bg: 'var(--primary)',
   },
   {
     eyebrow: 'For Students',
-    heading: 'Start Your\nProtection Today',
-    sub: 'Micro-payments mean you can begin coverage even on the tightest budget. No rigid premiums required.',
+    heading: 'Choose a Plan\nThat Suits You',
+    sub: 'Review available plans and contribution amounts before you enroll.',
     cta: 'View Plans',
     ctaPath: '/plans',
-    bg: 'linear-gradient(135deg, #162d6e 0%, #1E3A8A 45%, #2d52b8 100%)',
+    bg: 'var(--primary-dark)',
   },
   {
     eyebrow: 'For Transport Workers',
-    heading: 'Stay Covered\nWhile You Move',
-    sub: 'Deduct insurance contributions directly from your airtime. No bank account needed to get protected.',
+    heading: 'Manage Your Cover\nFrom Your Phone',
+    sub: 'View your plan, contribution history, and account updates in one place.',
     cta: 'Learn More',
     ctaPath: '/about',
-    bg: 'linear-gradient(135deg, #1E3A8A 0%, #0F766E 55%, #0a5c56 100%)',
+    bg: 'var(--primary)',
   },
 ]
 
@@ -287,7 +287,7 @@ function HeroSection() {
    STATS BAR
 ───────────────────────────────────────── */
 const stats = [
-  { value: 50, suffix: 'K+', label: 'Users Protected' },
+  { value: 1, suffix: 'K+', label: 'People Reached' },
   { value: 12, suffix: '+', label: 'Partner Insurers' },
   { value: 98, suffix: '%', label: 'Claims Satisfaction' },
   { value: 6, suffix: '+', label: 'States Covered' },
@@ -427,12 +427,12 @@ const solutions = [
   {
     icon: Wallet,
     title: 'Flexible Payments',
-    desc: 'Pay weekly, daily, or by airtime deduction. Insurance that bends around your income — not the other way.',
+    desc: 'Choose from the contribution options available for your plan and location.',
   },
   {
     icon: Users,
     title: 'Cooperative Contributions',
-    desc: 'Pool funds with your group, cooperative, or trade union to unlock collective coverage for every member.',
+    desc: 'Coordinate enrollment and contributions through a cooperative or trade union.',
   },
   {
     icon: Shield,
@@ -459,10 +459,10 @@ function SolutionSection() {
           animate={inView ? 'visible' : 'hidden'}
           transition={transition.smooth}
         >
-          <span className="section-eyebrow">✦ Why PayG Insure</span>
+            <span className="section-eyebrow">About PayG Insure</span>
           <h2 className="section-title">Built for How Africa Actually Works</h2>
           <p className="section-subtitle">
-            We built PayG Insure from the ground up around flexibility, inclusion, and simplicity.
+            PayG connects individuals and organised groups with flexible insurance options.
           </p>
         </motion.div>
 
@@ -510,7 +510,7 @@ const steps = [
   {
     n: '03',
     title: 'Select Payment Method',
-    desc: 'Pay by cooperative pool, trade union, voluntary contributions, or airtime deduction.',
+    desc: 'Review the contribution methods available for your selected plan.',
   },
   {
     n: '04',
@@ -596,7 +596,7 @@ function CTABanner() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: .25, ...transition.smooth }}
         >
-          Join thousands of Africans already protected through PayG Insure.
+          Review the available plans and choose the next step that works for you.
         </motion.p>
 
         <motion.div

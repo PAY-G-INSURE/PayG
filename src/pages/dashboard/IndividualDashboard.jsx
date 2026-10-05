@@ -18,16 +18,16 @@ const mockPlans = [
   },
   {
     id: 2, insurer: 'Insurer B', plan: 'Term Life Basic',
-    method: 'Airtime Deduction', status: 'Active',
+    method: 'Online payment', status: 'Active',
     premium: '₦1,500/mo', coverage: 'Life Insurance',
   },
 ]
 
 const mockHistory = [
   { id: 1, date: 'Jun 01, 2026', plan: 'Basic Health Plan',   amount: '₦2,000', method: 'Cooperative', status: 'Successful' },
-  { id: 2, date: 'May 15, 2026', plan: 'Term Life Basic',    amount: '₦1,500', method: 'Airtime',      status: 'Successful' },
+  { id: 2, date: 'May 15, 2026', plan: 'Term Life Basic',    amount: '₦1,500', method: 'Online payment', status: 'Successful' },
   { id: 3, date: 'May 01, 2026', plan: 'Basic Health Plan',   amount: '₦2,000', method: 'Cooperative', status: 'Successful' },
-  { id: 4, date: 'Apr 20, 2026', plan: 'Term Life Basic',    amount: '₦1,500', method: 'Airtime',      status: 'Pending'    },
+  { id: 4, date: 'Apr 20, 2026', plan: 'Term Life Basic',    amount: '₦1,500', method: 'Online payment', status: 'Pending'    },
   { id: 5, date: 'Apr 01, 2026', plan: 'Basic Health Plan',   amount: '₦2,000', method: 'Cooperative', status: 'Failed'     },
 ]
 

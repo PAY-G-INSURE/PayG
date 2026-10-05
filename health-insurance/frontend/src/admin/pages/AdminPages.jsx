@@ -9,8 +9,8 @@ function Skeleton({ h = "14px", w = "100%" }) {
   return <div style={{ height: h, width: w, background: "#1e1e2e", borderRadius: "4px", animation: "pulse 1.5s ease-in-out infinite", marginBottom: "4px" }} />;
 }
 
-function planColor(p) { return p === "Premium" ? "#F97316" : p === "Standard" ? "#2563EB" : "#16A34A"; }
-function statusColor(s) { return s === "active" ? "#16A34A" : s === "pending" ? "#F97316" : "#6B7280"; }
+function planColor(p) { return p === "Premium" ? "#86A95E" : p === "Standard" ? "#27833D" : "#16A34A"; }
+function statusColor(s) { return s === "active" ? "#16A34A" : s === "pending" ? "#86A95E" : "#6B7280"; }
 
 // ─── USERS ────────────────────────────────────────────────────────────────────
 
@@ -56,7 +56,7 @@ export function AdminUsers() {
   return (
     <div>
       <div style={{ marginBottom: "28px" }}>
-        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Users</h1>
+        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>Users</h1>
         <p style={{ margin: 0, color: "#6B7280", fontSize: "14px" }}>{total.toLocaleString()} registered users</p>
       </div>
 
@@ -67,8 +67,8 @@ export function AdminUsers() {
           <button key={f} onClick={() => { setFilter(f); setPage(1); }} style={{
             padding: "6px 14px", borderRadius: "8px", fontSize: "13px", fontWeight: 600,
             border: "1px solid", cursor: "pointer",
-            borderColor: filter === f ? "#2563EB" : "#1e1e2e",
-            background: filter === f ? "rgba(37,99,235,0.15)" : "transparent",
+            borderColor: filter === f ? "#27833D" : "#1e1e2e",
+            background: filter === f ? "rgba(39,131,61,0.15)" : "transparent",
             color: filter === f ? "#60a5fa" : "#6B7280",
           }}>{f}</button>
         ))}
@@ -77,7 +77,7 @@ export function AdminUsers() {
           value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
           style={{ flex: 1, minWidth: "200px", background: "#111118", border: "1px solid #1e1e2e", borderRadius: "10px", padding: "8px 14px", color: "#fff", fontSize: "13px", outline: "none" }}
         />
-        <button onClick={fetchUsers} style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", color: "#60a5fa", cursor: "pointer", fontSize: "13px" }}>Refresh</button>
+        <button onClick={fetchUsers} style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(39,131,61,0.1)", border: "1px solid rgba(39,131,61,0.2)", color: "#60a5fa", cursor: "pointer", fontSize: "13px" }}>Refresh</button>
       </div>
 
       <div style={{ background: "#111118", border: "1px solid #1e1e2e", borderRadius: "16px", overflow: "auto" }}>
@@ -106,7 +106,7 @@ export function AdminUsers() {
               >
                 <td style={{ padding: "14px 16px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(37,99,235,0.15)", color: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700, flexShrink: 0 }}>
+                    <div style={{ width: "34px", height: "34px", borderRadius: "8px", background: "rgba(39,131,61,0.15)", color: "#27833D", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700, flexShrink: 0 }}>
                       {(u.name || "?")[0]}
                     </div>
                     <div>
@@ -130,7 +130,7 @@ export function AdminUsers() {
                   {u.joined ? new Date(u.joined).toLocaleDateString("en-NG", { day: "numeric", month: "short", year: "numeric" }) : "—"}
                 </td>
                 <td style={{ padding: "14px 16px" }}>
-                  <button onClick={() => setSelected(u)} style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", borderRadius: "8px", padding: "6px 12px", color: "#60a5fa", fontSize: "12px", fontWeight: 600, cursor: "pointer" }}>View</button>
+                  <button onClick={() => setSelected(u)} style={{ background: "rgba(39,131,61,0.1)", border: "1px solid rgba(39,131,61,0.2)", borderRadius: "8px", padding: "6px 12px", color: "#60a5fa", fontSize: "12px", fontWeight: 600, cursor: "pointer" }}>View</button>
                 </td>
               </tr>
             ))}
@@ -214,7 +214,7 @@ export function AdminTransactions() {
   return (
     <div>
       <div style={{ marginBottom: "28px" }}>
-        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Transactions</h1>
+        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>Transactions</h1>
         <p style={{ margin: 0, color: "#6B7280", fontSize: "14px" }}>{total.toLocaleString()} total • Page revenue: <span style={{ color: "#16A34A", fontWeight: 700 }}>₦{totalRevenue.toLocaleString()}</span></p>
       </div>
 
@@ -226,7 +226,7 @@ export function AdminTransactions() {
           value={search} onChange={e => { setSearch(e.target.value); setPage(1); }}
           style={{ flex: 1, background: "#111118", border: "1px solid #1e1e2e", borderRadius: "10px", padding: "10px 14px", color: "#fff", fontSize: "13px", outline: "none" }}
         />
-        <button onClick={fetchTxns} style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", color: "#60a5fa", cursor: "pointer", fontSize: "13px" }}>Refresh</button>
+        <button onClick={fetchTxns} style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(39,131,61,0.1)", border: "1px solid rgba(39,131,61,0.2)", color: "#60a5fa", cursor: "pointer", fontSize: "13px" }}>Refresh</button>
       </div>
 
       <div style={{ background: "#111118", border: "1px solid #1e1e2e", borderRadius: "16px", overflow: "auto" }}>
@@ -255,7 +255,7 @@ export function AdminTransactions() {
                 <td style={{ padding: "14px 16px", color: "#fff", fontSize: "13px", fontWeight: 600 }}>{t.user}</td>
                 <td style={{ padding: "14px 16px", color: "#fff", fontSize: "13px", fontWeight: 700 }}>₦{(t.amount || 0).toLocaleString()}</td>
                 <td style={{ padding: "14px 16px" }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "3px 10px", borderRadius: "6px", fontSize: "12px", fontWeight: 700, background: t.channel === "USSD" ? "rgba(249,115,22,0.1)" : "rgba(22,163,74,0.1)", color: t.channel === "USSD" ? "#F97316" : "#16A34A" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "3px 10px", borderRadius: "6px", fontSize: "12px", fontWeight: 700, background: t.channel === "USSD" ? "rgba(134,169,94,0.1)" : "rgba(22,163,74,0.1)", color: t.channel === "USSD" ? "#86A95E" : "#16A34A" }}>
                     <span className="material-symbols-rounded" style={{ fontSize: "14px" }}>{t.channel === "USSD" ? "dialpad" : "credit_card"}</span>
                     {t.channel}
                   </span>
@@ -300,14 +300,14 @@ export function AdminSubscriptions() {
 
   const plans = [
     { plan: "Basic",    price: "₦500",   color: "#16A34A" },
-    { plan: "Standard", price: "₦1,000", color: "#2563EB" },
-    { plan: "Premium",  price: "₦2,000", color: "#F97316" },
+    { plan: "Standard", price: "₦1,000", color: "#27833D" },
+    { plan: "Premium",  price: "₦2,000", color: "#86A95E" },
   ];
 
   return (
     <div>
       <div style={{ marginBottom: "28px" }}>
-        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Subscriptions</h1>
+        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>Subscriptions</h1>
         <p style={{ margin: 0, color: "#6B7280", fontSize: "14px" }}>Plan distribution across all users</p>
       </div>
 
@@ -322,7 +322,7 @@ export function AdminSubscriptions() {
             </div>
             {loading ? <Skeleton h="40px" w="60%" /> : (
               <>
-                <p style={{ margin: 0, color: "#fff", fontSize: "36px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p style={{ margin: 0, color: "#fff", fontSize: "36px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>
                   {(summary?.[p.plan] || 0).toLocaleString()}
                 </p>
                 <p style={{ margin: "4px 0 0", color: "#6B7280", fontSize: "12px" }}>subscribers</p>
@@ -396,7 +396,7 @@ export function AdminBroadcast() {
   return (
     <div>
       <div style={{ marginBottom: "28px" }}>
-        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Broadcast SMS</h1>
+        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>Broadcast SMS</h1>
         <p style={{ margin: 0, color: "#6B7280", fontSize: "14px" }}>Send messages to users via Africa's Talking</p>
       </div>
 
@@ -420,8 +420,8 @@ export function AdminBroadcast() {
             {audienceOptions.map(a => (
               <button key={a.value} onClick={() => setAudience(a.value)} style={{
                 padding: "12px 16px", borderRadius: "10px", textAlign: "left",
-                border: `1px solid ${audience === a.value ? "#2563EB" : "#1e1e2e"}`,
-                background: audience === a.value ? "rgba(37,99,235,0.1)" : "transparent",
+                border: `1px solid ${audience === a.value ? "#27833D" : "#1e1e2e"}`,
+                background: audience === a.value ? "rgba(39,131,61,0.1)" : "transparent",
                 cursor: "pointer",
               }}>
                 <p style={{ margin: "0 0 2px", color: "#fff", fontSize: "13px", fontWeight: 600 }}>{a.label}</p>
@@ -457,12 +457,12 @@ export function AdminBroadcast() {
           disabled={!message.trim() || sending}
           style={{
             width: "100%", padding: "13px", borderRadius: "10px", border: "none",
-            background: message.trim() && !sending ? "#2563EB" : "#1e1e2e",
+            background: message.trim() && !sending ? "#27833D" : "#1e1e2e",
             color: message.trim() && !sending ? "#fff" : "#374151",
             fontWeight: 700, fontSize: "15px",
             cursor: message.trim() && !sending ? "pointer" : "not-allowed",
             display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
           }}
         >
           {sending ? (

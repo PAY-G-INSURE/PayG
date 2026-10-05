@@ -1,31 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --primary:        #1E3A8A;
-  --primary-dark:   #162d6e;
-  --primary-light:  #2d52b8;
-  --teal:           #0F766E;
-  --teal-dark:      #0a5c56;
-  --teal-light:     #14968c;
-  --orange:         #F97316;
-  --orange-light:   #fed7aa;
-  --bg:             #F8FAFC;
+  --primary:        #166534;
+  --primary-dark:   #14532D;
+  --primary-light:  #15803D;
+  --teal:           #15803D;
+  --teal-dark:      #14532D;
+  --teal-light:     #22A447;
+  --orange:         #84A84A;
+  --orange-light:   #E7F0D9;
+  --bg:             #F5F8F4;
   --surface:        #ffffff;
-  --surface-2:      #EFF4FF;
+  --surface-2:      #EAF2E9;
   --text:           #1F2937;
   --text-muted:     #6B7280;
   --text-light:     #9CA3AF;
-  --border:         #E2E8F0;
-  --border-strong:  #CBD5E1;
+  --border:         #DCE6DA;
+  --border-strong:  #C4D4C0;
   --success:        #16A34A;
   --success-bg:     #DCFCE7;
   --error:          #DC2626;
   --error-bg:       #FEE2E2;
   --warning-bg:     #FFF7ED;
-  --shadow-sm:      0 1px 3px rgba(30,58,138,.06);
-  --shadow:         0 4px 12px rgba(30,58,138,.08);
-  --shadow-md:      0 8px 24px rgba(30,58,138,.12);
-  --shadow-lg:      0 20px 48px rgba(30,58,138,.16);
+  --shadow-sm:      0 1px 3px rgba(20,83,45,.06);
+  --shadow:         0 4px 12px rgba(20,83,45,.08);
+  --shadow-md:      0 8px 24px rgba(20,83,45,.12);
+  --shadow-lg:      0 20px 48px rgba(20,83,45,.14);
   --radius-xs:      0.25rem;
   --radius-sm:      0.375rem;
   --radius:         0.5rem;
@@ -34,10 +34,10 @@
   --radius-xl:      1.5rem;
   --radius-2xl:     2rem;
   --radius-full:    9999px;
-  --font-display:   'Syne', sans-serif;
+  --font-display:   'Inter', sans-serif;
   --font-body:      'Inter', sans-serif;
   --nav-h:          72px;
-  --container:      1280px;
+  --container:      1200px;
   --z-dropdown:     100;
   --z-sticky:       200;
   --z-modal-bg:     300;
@@ -94,15 +94,15 @@ html.lenis { height: auto; }
 
 .btn-primary {
   background: var(--primary); color: #fff;
-  box-shadow: 0 4px 14px rgba(30,58,138,.3);
+  box-shadow: 0 4px 14px rgba(20,83,45,.18);
 }
-.btn-primary:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(30,58,138,.4); }
+.btn-primary:hover { background: var(--primary-light); box-shadow: 0 6px 20px rgba(20,83,45,.22); }
 
 .btn-teal {
   background: var(--teal); color: #fff;
   box-shadow: 0 4px 14px rgba(15,118,110,.3);
 }
-.btn-teal:hover { background: var(--teal-light); box-shadow: 0 6px 20px rgba(15,118,110,.4); }
+.btn-teal:hover { background: var(--teal-light); box-shadow: 0 6px 20px rgba(20,83,45,.22); }
 
 .btn-outline {
   background: transparent; color: #fff;

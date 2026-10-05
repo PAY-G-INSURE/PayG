@@ -1,16 +1,14 @@
 import { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext.jsx'
+import { api } from '../utils/api.js'
 
-const BASE = import.meta.env.VITE_API_BASE_URL
-const hasBackend = () => Boolean(BASE && BASE !== 'https://payg-mvp2-backend.onrender.com' || false)
-const mockOtp = () => String(Math.floor(1000 + Math.random() * 9000))
 
 /* ─── Shared tokens (inline so this file is self-contained) ─────────────── */
 const T = {
-  s0: '#0D1117', s1: '#161B22', s2: '#21262D',
-  t4: '#2DD4BF', t6: '#0D9488',
-  ink: '#F0F6FC', muted: '#8B949E', border: '#30363D',
+  s0: '#0A1F12', s1: '#102A18', s2: '#173A23',
+  t4: '#65C37A', t6: '#27833D',
+  ink: '#F0F6FC', muted: '#8B949E', border: '#2D4D35',
 }
 
 const css = `
@@ -25,7 +23,7 @@ const css = `
   }
   .auth-input:focus { border-color: ${T.t4}; }
   .auth-input::placeholder { color: ${T.muted}; }
-  .auth-input-filled { border-color: ${T.t4}; background: rgba(45,212,191,0.06); color: ${T.t4}; }
+  .auth-input-filled { border-color: ${T.t4}; background: rgba(101,195,122,0.06); color: ${T.t4}; }
   .auth-otp {
     flex: 1; aspect-ratio: 1; text-align: center;
     background: ${T.s2}; border: 1.5px solid ${T.border};
@@ -35,15 +33,15 @@ const css = `
     outline: none;
   }
   .auth-otp:focus { border-color: ${T.t4}; }
-  .auth-otp.filled { border-color: ${T.t4}; background: rgba(45,212,191,0.08); color: ${T.t4}; }
+  .auth-otp.filled { border-color: ${T.t4}; background: rgba(101,195,122,0.08); color: ${T.t4}; }
   .auth-tab { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
     padding: 10px; border-radius: 10px; border: none; cursor: pointer;
     font-family: inherit; font-size: 13px; font-weight: 700; transition: all 0.18s; }
   .auth-tab.active { background: ${T.s1}; color: ${T.ink}; box-shadow: 0 1px 6px rgba(0,0,0,0.4); }
   .auth-tab.inactive { background: transparent; color: ${T.muted}; }
   .teal-btn {
-    width: 100%; background: linear-gradient(135deg, ${T.t4}, ${T.t6});
-    color: #0D1117; font-weight: 800; font-size: 15px; font-family: inherit;
+    width: 100%; background: var(--t6);
+    color: #0A1F12; font-weight: 800; font-size: 15px; font-family: inherit;
     border: none; border-radius: 14px; height: 52px; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: opacity 0.18s, transform 0.1s;
@@ -98,19 +96,9 @@ export default function Auth() {
     if (err) { setError(err); return }
     setError(''); setLoading(true)
     try {
-      if (hasBackend()) {
-        const res = await fetch(`${BASE}/auth/send-otp`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(mode === 'phone' ? { phone: value } : { email: value }),
-        })
-        const data = await res.json()
-        if (!res.ok) throw new Error(data.message || 'Failed to send code')
-        if (data.devOtp) setDevCode(data.devOtp); else setDevCode(null)
-      } else {
-        const code = mockOtp()
-        setDevCode(code)
-        await new Promise(r => setTimeout(r, 900))
-      }
+      const contact = mode === 'phone' ? { phone: value } : { email: value }
+      const data = await api.auth.sendOtp(contact)
+      setDevCode(data.devOtp || null)
       setStep('otp'); startCountdown()
     } catch (e) {
       setError(e.message || 'Could not send code. Check your connection.')
@@ -143,27 +131,12 @@ export default function Auth() {
     if (code.length < 4) { setError('Enter the 4-digit code'); return }
     setError(''); setLoading(true)
     try {
-      if (hasBackend()) {
-        const payload = mode === 'phone' ? { phone: value, otp: code } : { email: value, otp: code }
-        const res = await fetch(`${BASE}/auth/verify-otp`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        const data = await res.json()
-        if (!res.ok) throw new Error(data.message || 'Verification failed')
-        if (data.token) localStorage.setItem('payg_token', data.token)
-        login({ id: data.user.id, phone: data.user.phone, email: data.user.email,
-          firstName: data.user.firstName, lastName: data.user.lastName, isOnboarded: data.user.isOnboarded })
-        navigate(data.isNew ? '/onboarding' : '/dashboard')
-      } else {
-        if (code !== devCode) throw new Error(`Wrong code. Dev code is ${devCode} — click it to auto-fill.`)
-        await new Promise(r => setTimeout(r, 700))
-        const isNew = !localStorage.getItem('payg_returning')
-        if (isNew) localStorage.setItem('payg_returning', '1')
-        login({ phone: mode === 'phone' ? value : null, email: mode === 'email' ? value : null, firstName: null })
-        navigate(isNew ? '/onboarding' : '/dashboard')
-      }
-    } catch (e) {
+      const contact = mode === 'phone' ? { phone: value } : { email: value }
+      const data = await api.auth.verifyOtp(contact, code)
+      if (data.token) localStorage.setItem('payg_token', data.token)
+      login({ id: data.user.id, phone: data.user.phone, email: data.user.email,
+        firstName: data.user.firstName, lastName: data.user.lastName, isOnboarded: data.user.isOnboarded })
+      navigate(data.isNew ? '/onboarding' : '/dashboard')    } catch (e) {
       setError(e.message || 'Verification failed. Try again.')
     } finally { setLoading(false) }
   }
@@ -181,7 +154,7 @@ export default function Auth() {
       <div style={{
         position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
         width: 500, height: 300,
-        background: 'radial-gradient(ellipse, rgba(45,212,191,0.09) 0%, transparent 70%)',
+        background: 'none',
         pointerEvents: 'none', zIndex: 0,
       }} />
 
@@ -202,10 +175,10 @@ export default function Auth() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 24, marginBottom: 36 }}>
           <div style={{
             width: 38, height: 38, borderRadius: 11,
-            background: 'linear-gradient(135deg, #2DD4BF, #0D9488)',
+            background: 'var(--t6)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <span className="icon" style={{ color: '#0D1117', fontSize: 20 }}>shield</span>
+            <span className="icon" style={{ color: '#0A1F12', fontSize: 20 }}>shield</span>
           </div>
           <span style={{ fontWeight: 900, fontSize: 20, color: T.t4, letterSpacing: -0.5 }}>PAYG</span>
         </div>
@@ -221,10 +194,11 @@ export default function Auth() {
               display: 'flex', background: T.s2, border: `1px solid ${T.border}`,
               borderRadius: 13, padding: 4, marginBottom: 24,
             }}>
-              {[['phone', 'smartphone', 'Phone'], ['email', 'mail', 'Email']].map(([m, ic, lb]) => (
+              {[['phone', 'smartphone', 'Phone'], ['email', 'mail', 'Email unavailable']].map(([m, ic, lb]) => (
                 <button key={m}
+                  disabled={m === 'email'}
                   onClick={() => { setMode(m); setValue(''); setError('') }}
-                  className={`auth-tab ${mode === m ? 'active' : 'inactive'}`}>
+                  className={`auth-tab ${mode === m ? 'active' : 'inactive'} ${m === 'email' ? 'opacity-50 cursor-not-allowed' : ''}`}>
                   <span className="icon-o" style={{ fontSize: 16 }}>{ic}</span> {lb}
                 </button>
               ))}
@@ -269,13 +243,13 @@ export default function Auth() {
 
             <button onClick={handleSend} disabled={loading} className="teal-btn" style={{ marginTop: 20 }}>
               {loading
-                ? <><span className="auth-spin" style={{ width: 18, height: 18, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#0D1117', borderRadius: '50%' }} />Sending code…</>
+                ? <><span className="auth-spin" style={{ width: 18, height: 18, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#0A1F12', borderRadius: '50%' }} />Sending code…</>
                 : <><span className="icon-o" style={{ fontSize: 18 }}>send</span>Send Verification Code</>}
             </button>
 
             <div style={{
               marginTop: 16, padding: '12px 16px',
-              background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.2)',
+              background: 'rgba(101,195,122,0.07)', border: '1px solid rgba(101,195,122,0.2)',
               borderRadius: 12,
             }}>
               <p style={{ fontSize: 12, color: T.t4, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
@@ -350,7 +324,7 @@ export default function Auth() {
                 </p>
               ) : (
                 <button onClick={handleResend} style={{
-                  fontSize: 12, fontWeight: 700, color: '#FB923C',
+                  fontSize: 12, fontWeight: 700, color: '#9DBB75',
                   background: 'none', border: 'none', cursor: 'pointer',
                 }}>
                   Resend Code
@@ -360,7 +334,7 @@ export default function Auth() {
 
             <button onClick={handleVerify} disabled={loading || otp.join('').length < 4} className="teal-btn" style={{ marginBottom: 12 }}>
               {loading
-                ? <><span className="auth-spin" style={{ width: 18, height: 18, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#0D1117', borderRadius: '50%' }} />Verifying…</>
+                ? <><span className="auth-spin" style={{ width: 18, height: 18, border: '2px solid rgba(0,0,0,0.2)', borderTopColor: '#0A1F12', borderRadius: '50%' }} />Verifying…</>
                 : <><span className="icon-o">verified</span>Verify & Continue</>}
             </button>
 

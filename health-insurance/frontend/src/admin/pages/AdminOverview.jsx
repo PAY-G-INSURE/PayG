@@ -2,17 +2,17 @@
 import { useState, useEffect } from "react";
 import { getStats } from "../adminApi";
 
-function StatCard({ label, value, sub, icon, color = "#2563EB" }) {
+function StatCard({ label, value, sub, icon, color = "#27833D" }) {
   return (
     <div style={{
       background: "#111118", border: "1px solid #1e1e2e",
       borderRadius: "16px", padding: "20px", position: "relative", overflow: "hidden",
     }}>
-      <div style={{ position: "absolute", top: 0, right: 0, width: "80px", height: "80px", background: `radial-gradient(circle at top right, ${color}18, transparent 70%)` }} />
+      <div style={{ position: "absolute", top: 0, right: 0, width: "80px", height: "80px", background: `none` }} />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
           <p style={{ margin: "0 0 8px", color: "#6B7280", fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>{label}</p>
-          <p style={{ margin: "0 0 4px", color: "#fff", fontSize: "28px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{value}</p>
+          <p style={{ margin: "0 0 4px", color: "#fff", fontSize: "28px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>{value}</p>
           {sub && <p style={{ margin: 0, color: "#374151", fontSize: "12px" }}>{sub}</p>}
         </div>
         <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: `${color}18`, border: `1px solid ${color}30`, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -28,7 +28,7 @@ function Skeleton({ h = "20px", w = "100%" }) {
 }
 
 function planColor(plan) {
-  return plan === "Premium" ? "#F97316" : plan === "Standard" ? "#2563EB" : "#16A34A";
+  return plan === "Premium" ? "#86A95E" : plan === "Standard" ? "#27833D" : "#16A34A";
 }
 
 export default function AdminOverview() {
@@ -45,13 +45,13 @@ export default function AdminOverview() {
   return (
     <div>
       <div style={{ marginBottom: "28px" }}>
-        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Overview</h1>
+        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>Overview</h1>
         <p style={{ margin: 0, color: "#6B7280", fontSize: "14px" }}>Live snapshot of PAYG platform</p>
       </div>
 
       {error && (
         <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: "12px", padding: "14px 18px", marginBottom: "20px", color: "#f87171", fontSize: "13px" }}>
-          ⚠️ {error} — check backend is running and ADMIN_SECRET_TOKEN is set.
+          ⚠️ {error} — check the API URL and server admin configuration.
         </div>
       )}
 
@@ -61,9 +61,9 @@ export default function AdminOverview() {
             <Skeleton h="12px" w="60%" /><Skeleton h="32px" w="40%" />
           </div>
         )) : <>
-          <StatCard label="Total Users"        value={(s.totalUsers || 0).toLocaleString()}                        icon="group"                 color="#2563EB" />
+          <StatCard label="Total Users"        value={(s.totalUsers || 0).toLocaleString()}                        icon="group"                 color="#27833D" />
           <StatCard label="Active Coverage"    value={(s.activeSubscriptions || 0).toLocaleString()}               icon="verified_user"          color="#16A34A" sub={`${s.pendingSubscriptions || 0} pending`} />
-          <StatCard label="Claims Pending"     value={s.claimsPending || 0}                                        icon="medical_services"       color="#F97316" sub={`${s.claimsUnderReview || 0} under review`} />
+          <StatCard label="Claims Pending"     value={s.claimsPending || 0}                                        icon="medical_services"       color="#86A95E" sub={`${s.claimsUnderReview || 0} under review`} />
           <StatCard label="Revenue This Month" value={`₦${((s.revenueMonth || 0)/1000).toFixed(0)}k`}             icon="payments"               color="#8B5CF6" sub={`₦${((s.revenueToday || 0)/1000).toFixed(1)}k today`} />
           <StatCard label="Total Wallet Funds" value={`₦${((s.totalWalletBalance || 0)/1000000).toFixed(2)}M`}    icon="account_balance_wallet" color="#06B6D4" />
           <StatCard label="Revenue This Week"  value={`₦${((s.revenueWeek || 0)/1000).toFixed(0)}k`}             icon="trending_up"            color="#10B981" />
@@ -76,7 +76,7 @@ export default function AdminOverview() {
           <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             {[
               { label: "Active",   value: s.activeSubscriptions || 0,   color: "#16A34A" },
-              { label: "Pending",  value: s.pendingSubscriptions || 0,   color: "#F97316" },
+              { label: "Pending",  value: s.pendingSubscriptions || 0,   color: "#86A95E" },
               { label: "Inactive", value: s.inactiveSubscriptions || 0,  color: "#6B7280" },
             ].map(item => {
               const total = (s.activeSubscriptions||0) + (s.pendingSubscriptions||0) + (s.inactiveSubscriptions||0);
@@ -106,7 +106,7 @@ export default function AdminOverview() {
               (data?.recentSignups || []).map((u, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "rgba(37,99,235,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#2563EB", fontSize: "14px", fontWeight: 700 }}>{u.name[0]}</div>
+                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "rgba(39,131,61,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "#27833D", fontSize: "14px", fontWeight: 700 }}>{u.name[0]}</div>
                     <div>
                       <p style={{ margin: 0, color: "#fff", fontSize: "13px", fontWeight: 600 }}>{u.name}</p>
                       <p style={{ margin: 0, color: "#6B7280", fontSize: "11px" }}>{u.phone}</p>
@@ -130,8 +130,8 @@ export default function AdminOverview() {
               (data?.recentPayments || []).map((p, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: p.channel === "USSD" ? "rgba(249,115,22,0.15)" : "rgba(22,163,74,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <span className="material-symbols-rounded" style={{ fontSize: "16px", color: p.channel === "USSD" ? "#F97316" : "#16A34A" }}>{p.channel === "USSD" ? "dialpad" : "credit_card"}</span>
+                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: p.channel === "USSD" ? "rgba(134,169,94,0.15)" : "rgba(22,163,74,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span className="material-symbols-rounded" style={{ fontSize: "16px", color: p.channel === "USSD" ? "#86A95E" : "#16A34A" }}>{p.channel === "USSD" ? "dialpad" : "credit_card"}</span>
                     </div>
                     <div>
                       <p style={{ margin: 0, color: "#fff", fontSize: "13px", fontWeight: 600 }}>{p.name}</p>

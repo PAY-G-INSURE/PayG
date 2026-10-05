@@ -11,24 +11,18 @@
  *   app.use("/api/ussd", require("./routes/ussd"));
  *
  * Africa's Talking Dashboard → USSD → Callback URL:
- *   https://your-backend.onrender.com/api/ussd
+ *   https://your-backend.onrender.com/api/ussd?token=AT_USSD_CALLBACK_TOKEN
  */
 
 const express = require("express");
+const crypto = require("crypto");
 const router = express.Router();
 const User = require("../models/User");
 const Subscription = require("../models/Subscription");
-const Transaction = require("../models/Transaction");
-const {
-  sendPaymentReceived,
-  sendCoverageActive,
-  sendAirtimeDeductionConfirmation,
-} = require("../utils/sms");
-const { createNotification } = require("../utils/notifications");
+
 
 // ─── SESSION STORE (in-memory, replace with Redis in production) ──────────────
 // Stores pending airtime deduction confirmations keyed by sessionId
-const pendingSessions = new Map();
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
@@ -48,6 +42,13 @@ function planLabel(plan) {
 // ─── MAIN USSD HANDLER ────────────────────────────────────────────────────────
 
 router.post("/", express.urlencoded({ extended: false }), async (req, res) => {
+  const expectedToken = process.env.AT_USSD_CALLBACK_TOKEN || '';
+  const providedToken = String(req.query.token || '');
+  const expectedBytes = Buffer.from(expectedToken);
+  const providedBytes = Buffer.from(providedToken);
+  if (!expectedToken || expectedBytes.length !== providedBytes.length || !crypto.timingSafeEqual(expectedBytes, providedBytes)) {
+    return res.status(401).type('text/plain').send('END Service unavailable.');
+  }
   const { sessionId, phoneNumber, text, networkCode } = req.body;
 
   // Split the input chain so we can navigate multi-step menus
@@ -135,112 +136,11 @@ Visit payg.ng to get started.`;
 
     // ── REGISTERED USER FLOWS ─────────────────────────────────────────────────
 
-    // 1. TOP UP WALLET
-    else if (text === "1") {
-      response = `CON Top Up Wallet
-Choose amount:
-1. ₦200
-2. ₦500
-3. ₦1,000
-4. ₦2,000
-5. Enter amount
-0. Back`;
+    // Session confirmation does not verify a money debit. Keep this menu informational
+    // until a carrier-approved billing product supplies a charge result.
+    else if (text === "1" || text.startsWith("1*")) {
+      response = `END USSD airtime wallet top-up is unavailable. This USSD session cannot confirm an airtime charge. Please use Paystack in the PAYG app.`;
     }
-
-    else if (text === "1*5") {
-      response = `CON Enter amount to top up (₦):`;
-    }
-
-    else if (text.startsWith("1*") && level === 2) {
-      const amountMap = { 1: 200, 2: 500, 3: 1000, 4: 2000 };
-      const choice = parts[1];
-      const amount = amountMap[choice];
-
-      if (amount) {
-        pendingSessions.set(sessionId, { action: "topup", amount });
-        response = `CON Confirm top up of ₦${amount.toLocaleString()} via airtime?
-Your airtime will be deducted immediately.
-
-1. Confirm
-2. Cancel`;
-      } else {
-        response = `CON Enter amount to top up (₦):`;
-      }
-    }
-
-    else if (text === "1*5*" || (text.startsWith("1*5*") && level === 3)) {
-      const rawAmount = parts[2];
-      const amount = parseInt(rawAmount, 10);
-
-      if (!amount || amount < 50 || amount > 10000) {
-        response = `CON Invalid amount. Enter between ₦50 and ₦10,000:`;
-      } else {
-        pendingSessions.set(sessionId, { action: "topup", amount });
-        response = `CON Confirm top up of ₦${amount.toLocaleString()} via airtime?
-
-1. Confirm
-2. Cancel`;
-      }
-    }
-
-    // Confirmation of airtime top up
-    else if (level === 3 && parts[0] === "1" && parts[2] === "1") {
-      const session = pendingSessions.get(sessionId);
-
-      if (!session || !user || !subscription) {
-        response = `END Session expired. Please try again.`;
-      } else {
-        const { amount } = session;
-        pendingSessions.delete(sessionId);
-
-        // ── ACTUAL WALLET CREDIT ───────────────────────────────────────────
-        subscription.walletBalance += amount;
-        await subscription.refreshStatus();
-        await subscription.save();
-
-        await Transaction.create({
-          user: user._id,
-          amount,
-          type: "payment",
-          status: "success",
-          paystackReference: `USSD-${sessionId}-${Date.now()}`,
-          channel: "ussd_airtime",
-          description: `Airtime top up via USSD`,
-        });
-
-        await createNotification(user._id, {
-          type: "payment",
-          title: "Airtime Top Up",
-          body: `₦${amount.toLocaleString()} added to your PAYG wallet via airtime.`,
-        });
-
-        // Send SMS confirmation
-        await sendAirtimeDeductionConfirmation(
-          user.phone,
-          amount,
-          subscription.walletBalance
-        );
-        if (subscription.status === "active") {
-          await sendCoverageActive(
-            user.phone,
-            subscription.plan,
-            subscription.coverageEndDate
-          );
-        }
-
-        response = `END ✅ ₦${amount.toLocaleString()} added to your PAYG wallet.
-New balance: ₦${subscription.walletBalance.toLocaleString()}
-Status: ${subscription.status.toUpperCase()}
-
-A confirmation SMS has been sent.`;
-      }
-    }
-
-    else if (level === 3 && parts[0] === "1" && parts[2] === "2") {
-      pendingSessions.delete(sessionId);
-      response = `END Top up cancelled. Your airtime was not charged.`;
-    }
-
     // 3. MY PLAN
     else if (text === "3") {
       if (!subscription) {

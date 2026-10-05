@@ -8,18 +8,18 @@ import logo from '../assets/logo.png'
 */
 const CSS_VARS = `
   :root {
-    --surface-0:  #0D1117;
-    --surface-1:  #161B22;
-    --surface-2:  #21262D;
-    --teal-400:   #2DD4BF;
-    --teal-600:   #0D9488;
-    --teal-glow:  rgba(45,212,191,0.15);
+    --surface-0:  #0A1F12;
+    --surface-1:  #102A18;
+    --surface-2:  #173A23;
+    --teal-400:   #65C37A;
+    --teal-600:   #27833D;
+    --teal-glow:  rgba(101,195,122,0.15);
     --ink:        #F0F6FC;
     --ink-muted:  #8B949E;
-    --border:     #30363D;
-    --green:      #34D399;
+    --border:     #2D4D35;
+    --green:      #5FBA72;
     --green-dim:  rgba(52,211,153,0.12);
-    --orange:     #FB923C;
+    --orange:     #9DBB75;
     --orange-dim: rgba(251,146,60,0.12);
   }
 `
@@ -102,8 +102,8 @@ export function Sidebar() {
       <div className="px-6 pt-8 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_0_12px_rgba(45,212,191,0.25)]"
-            style={{ background: 'linear-gradient(135deg, var(--teal-400), var(--teal-600))' }}
+            className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-[0_0_12px_rgba(101,195,122,0.25)]"
+            style={{ background: 'var(--t6)' }}
           >
             <span className="icon text-[var(--surface-0)] text-base font-bold">shield</span>
           </div>

@@ -89,7 +89,7 @@ export default function AdminClaims() {
   return (
     <div>
       <div style={{ marginBottom: "28px" }}>
-        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Claims</h1>
+        <h1 style={{ margin: "0 0 4px", color: "#fff", fontSize: "24px", fontWeight: 800, fontFamily: "'Inter', sans-serif" }}>Claims</h1>
         <p style={{ margin: 0, color: "#6B7280", fontSize: "14px" }}>Review and process insurance claims</p>
       </div>
 
@@ -121,8 +121,8 @@ export default function AdminClaims() {
             <button key={s} onClick={() => { setFilter(s); setPage(1); }} style={{
               padding: "6px 14px", borderRadius: "8px", fontSize: "13px", fontWeight: 600,
               border: "1px solid", cursor: "pointer",
-              borderColor: filter === s ? "#2563EB" : "#1e1e2e",
-              background: filter === s ? "rgba(37,99,235,0.15)" : "transparent",
+              borderColor: filter === s ? "#27833D" : "#1e1e2e",
+              background: filter === s ? "rgba(39,131,61,0.15)" : "transparent",
               color: filter === s ? "#60a5fa" : "#6B7280",
             }}>{s}</button>
           ))}
@@ -133,7 +133,7 @@ export default function AdminClaims() {
           onChange={e => { setSearch(e.target.value); setPage(1); }}
           style={{ flex: 1, minWidth: "200px", background: "#111118", border: "1px solid #1e1e2e", borderRadius: "10px", padding: "8px 14px", color: "#fff", fontSize: "13px", outline: "none" }}
         />
-        <button onClick={fetchClaims} style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", color: "#60a5fa", cursor: "pointer", fontSize: "13px" }}>
+        <button onClick={fetchClaims} style={{ padding: "8px 16px", borderRadius: "8px", background: "rgba(39,131,61,0.1)", border: "1px solid rgba(39,131,61,0.2)", color: "#60a5fa", cursor: "pointer", fontSize: "13px" }}>
           Refresh
         </button>
       </div>
@@ -172,7 +172,7 @@ export default function AdminClaims() {
                   <td style={{ padding: "14px 16px", color: "#6B7280", fontSize: "12px", whiteSpace: "nowrap" }}>{claim.date}</td>
                   <td style={{ padding: "14px 16px" }}><StatusBadge status={claim.status} /></td>
                   <td style={{ padding: "14px 16px" }}>
-                    <button onClick={() => { setSelected(claim); setReviewNote(claim.reviewNote || ""); setAmountApproved(""); }} style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", borderRadius: "8px", padding: "6px 12px", color: "#60a5fa", fontSize: "12px", fontWeight: 600, cursor: "pointer" }}>
+                    <button onClick={() => { setSelected(claim); setReviewNote(claim.reviewNote || ""); setAmountApproved(""); }} style={{ background: "rgba(39,131,61,0.1)", border: "1px solid rgba(39,131,61,0.2)", borderRadius: "8px", padding: "6px 12px", color: "#60a5fa", fontSize: "12px", fontWeight: 600, cursor: "pointer" }}>
                       Review
                     </button>
                   </td>
@@ -255,7 +255,7 @@ export default function AdminClaims() {
                 </button>
               )}
               {selected.status === "Approved" && (
-                <button onClick={() => handleUpdateStatus("Paid")} disabled={updating} style={{ flex: 1, padding: "11px", borderRadius: "10px", border: "none", background: "#2563EB", color: "#fff", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
+                <button onClick={() => handleUpdateStatus("Paid")} disabled={updating} style={{ flex: 1, padding: "11px", borderRadius: "10px", border: "none", background: "#27833D", color: "#fff", fontWeight: 700, fontSize: "14px", cursor: "pointer" }}>
                   Mark as Paid
                 </button>
               )}

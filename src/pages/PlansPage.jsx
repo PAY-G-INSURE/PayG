@@ -51,7 +51,7 @@ const paymentOptions = [
   { icon: Users,         label: 'Cooperative Contribution', desc: 'Contributions through your registered cooperative.' },
   { icon: Handshake,     label: 'Trade Union Contribution', desc: 'Coverage supported by your trade union.' },
   { icon: CalendarCheck, label: 'Voluntary Contributions',  desc: 'Flexible payments at your preferred intervals.' },
-  { icon: Smartphone,    label: 'Airtime Deduction',        desc: 'Deduct from airtime (MTN, Airtel, Glo, 9mobile).' },
+  { icon: Smartphone,    label: 'Online payment',           desc: 'Fund contributions securely through the available payment provider.' },
 ]
 
 const insuranceTypes = [
@@ -60,7 +60,7 @@ const insuranceTypes = [
     icon: Heart,
     label: 'Health Insurance',
     desc: 'Protect yourself and your family against medical expenses.',
-    external: 'https://payg-mvp2-frontend-ten.vercel.app',  // replace with real URL later
+    external: 'https://payg-health.netlify.app/',
   },
   {
     key: 'life',

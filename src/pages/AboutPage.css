@@ -1,15 +1,12 @@
 /* ── Hero ── */
 .about-hero {
   position: relative;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--teal-dark) 100%);
+  background: var(--primary-dark);
   padding: 8rem 0 6rem;
   text-align: center;
   overflow: hidden;
 }
-.about-hero__blobs {
-  position: absolute; inset: 0;
-  pointer-events: none; overflow: hidden;
-}
+.about-hero__blobs { display: none; }
 .about-hero__blob {
   position: absolute; border-radius: 50%;
   filter: blur(80px); opacity: .14;

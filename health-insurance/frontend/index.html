@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>PAYG — Health Insurance</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0&display=swap" rel="stylesheet"/>
   <!-- Paystack SDK -->
   <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -14,37 +14,37 @@
       theme: {
         extend: {
           colors: {
-            blue: { brand: '#2563EB', dark: '#1D4ED8', light: '#EFF6FF', muted: '#DBEAFE' },
-            orange: { brand: '#F97316', light: '#FFF7ED', muted: '#FED7AA' },
+            blue: { brand: '#27833D', dark: '#14532D', light: '#EAF2EA', muted: '#CFE2D1' },
+            orange: { brand: '#86A95E', light: '#F2F6E9', muted: '#DDE8CB' },
             green: { brand: '#16A34A', light: '#F0FDF4', muted: '#BBF7D0' },
             ink: { DEFAULT: '#111827', mid: '#374151', muted: '#6B7280', faint: '#F9FAFB', border: '#E5E7EB' },
           },
-          fontFamily: { display: ['"Plus Jakarta Sans"', 'sans-serif'], body: ['"DM Sans"', 'sans-serif'] },
+          fontFamily: { display: ['Inter', 'sans-serif'], body: ['Inter', 'sans-serif'] },
           borderRadius: { '2xl': '1rem', '3xl': '1.25rem', '4xl': '1.75rem' },
           boxShadow: {
             card: '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04)',
             lift: '0 4px 6px rgba(0,0,0,0.05), 0 10px 28px rgba(0,0,0,0.08)',
-            blue: '0 4px 14px rgba(37,99,235,0.25)',
-            orange: '0 4px 14px rgba(249,115,22,0.3)',
+            green: '0 4px 14px rgba(39,131,61,0.18)',
+            orange: '0 4px 14px rgba(134,169,94,0.3)',
           }
         }
       }
     }
   </script>
   <style>
-    *, body { font-family: 'DM Sans', sans-serif; font-size: 20px;}
-    h1,h2,h3,h4,h5,button,label,.font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+    *, body { font-family: 'Inter', sans-serif; }
+    body { font-size: 16px; line-height: 1.55; }
+    h1,h2,h3,h4,h5,button,label,.font-display { font-family: 'Inter', sans-serif; }
     .icon { font-family: 'Material Symbols Rounded'; font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; line-height:1; user-select:none; vertical-align:middle; }
     .icon-o { font-family: 'Material Symbols Rounded'; font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; line-height:1; user-select:none; vertical-align:middle; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
     @keyframes scaleIn { from{opacity:0;transform:scale(0.92)} to{opacity:1;transform:scale(1)} }
-    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
     @keyframes ring { 0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,.35)} 50%{box-shadow:0 0 0 10px rgba(22,163,74,0)} }
     @keyframes spin { to{transform:rotate(360deg)} }
     .fu { animation: fadeUp .45s ease both; }
     .fu1{animation-delay:.08s} .fu2{animation-delay:.16s} .fu3{animation-delay:.24s} .fu4{animation-delay:.32s} .fu5{animation-delay:.40s}
     .scale-in { animation: scaleIn .3s ease both; }
-    .skeleton { background: linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%); background-size:200% 100%; animation: shimmer 1.4s infinite; }
+    .skeleton { background: #173A23; }
     .ring { animation: ring 2s ease-in-out infinite; }
     .spin { animation: spin .8s linear infinite; }
     input:focus,select:focus,textarea:focus { outline: none; }

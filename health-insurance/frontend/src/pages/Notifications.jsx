@@ -3,18 +3,18 @@ import AppLayout from '../components/AppLayout.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 
 const T = {
-  s0: '#0D1117', s1: '#161B22', s2: '#21262D',
-  t4: '#2DD4BF', t6: '#0D9488',
-  ink: '#F0F6FC', muted: '#8B949E', border: '#30363D',
-  green: '#34D399', orange: '#FB923C',
+  s0: '#0A1F12', s1: '#102A18', s2: '#173A23',
+  t4: '#65C37A', t6: '#27833D',
+  ink: '#F0F6FC', muted: '#8B949E', border: '#2D4D35',
+  green: '#5FBA72', orange: '#9DBB75',
 }
 
 const TYPE_CONFIG = {
-  payment: { icon: 'payments',     bg: 'rgba(52,211,153,0.1)',  color: '#34D399' },
-  coverage:{ icon: 'shield',       bg: 'rgba(45,212,191,0.1)',  color: '#2DD4BF' },
-  claim:   { icon: 'receipt_long', bg: 'rgba(251,146,60,0.1)',  color: '#FB923C' },
+  payment: { icon: 'payments',     bg: 'rgba(52,211,153,0.1)',  color: '#5FBA72' },
+  coverage:{ icon: 'shield',       bg: 'rgba(101,195,122,0.1)',  color: '#65C37A' },
+  claim:   { icon: 'receipt_long', bg: 'rgba(251,146,60,0.1)',  color: '#9DBB75' },
   alert:   { icon: 'warning',      bg: 'rgba(248,113,113,0.1)', color: '#F87171' },
-  info:    { icon: 'info',         bg: '#21262D',               color: '#8B949E' },
+  info:    { icon: 'info',         bg: '#173A23',               color: '#8B949E' },
 }
 
 function timeAgo(iso) {
@@ -36,13 +36,13 @@ function NotifItem({ n, onRead, showDot, dimmed }) {
       style={{
         width: '100%', display: 'flex', alignItems: 'flex-start', gap: 12,
         padding: '14px 16px', textAlign: 'left', cursor: 'pointer',
-        background: !n.read ? 'rgba(45,212,191,0.04)' : 'transparent',
+        background: !n.read ? 'rgba(101,195,122,0.04)' : 'transparent',
         border: 'none', fontFamily: 'inherit',
         opacity: dimmed ? 0.55 : 1,
         transition: 'background 0.18s',
       }}
-      onMouseEnter={e => !dimmed && (e.currentTarget.style.background = 'rgba(45,212,191,0.07)')}
-      onMouseLeave={e => e.currentTarget.style.background = !n.read ? 'rgba(45,212,191,0.04)' : 'transparent'}
+      onMouseEnter={e => !dimmed && (e.currentTarget.style.background = 'rgba(101,195,122,0.07)')}
+      onMouseLeave={e => e.currentTarget.style.background = !n.read ? 'rgba(101,195,122,0.04)' : 'transparent'}
     >
       <div style={{
         width: 38, height: 38, borderRadius: 12, flexShrink: 0,
@@ -130,7 +130,7 @@ export default function Notifications() {
               <div style={{ gridColumn: '1 / -1' }}>
                 {sectionLabel('New')}
                 <div style={{
-                  background: T.s1, border: `1px solid rgba(45,212,191,0.2)`,
+                  background: T.s1, border: `1px solid rgba(101,195,122,0.2)`,
                   borderRadius: 18, overflow: 'hidden',
                 }}>
                   {unread.map((n, i) => (
@@ -182,7 +182,7 @@ export default function Notifications() {
         {/* SMS notice */}
         <div style={{
           marginTop: 20, padding: '14px 16px',
-          background: 'rgba(45,212,191,0.07)', border: '1px solid rgba(45,212,191,0.2)',
+          background: 'rgba(101,195,122,0.07)', border: '1px solid rgba(101,195,122,0.2)',
           borderRadius: 14, display: 'flex', gap: 12, alignItems: 'flex-start',
         }}>
           <span className="icon" style={{ color: T.t4, fontSize: 18, flexShrink: 0 }}>sms</span>

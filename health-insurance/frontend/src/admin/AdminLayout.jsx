@@ -13,7 +13,7 @@ const NAV = [
 ];
 
 export default function AdminLayout() {
-  const { adminLogout } = useAdmin();
+  const { adminLogout, admin } = useAdmin();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -31,7 +31,7 @@ export default function AdminLayout() {
       {/* Logo */}
       <div style={{ padding: "24px 20px", borderBottom: "1px solid #1e1e2e" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <span style={{ fontSize: "18px", fontWeight: 800, color: "#2563EB", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>PAYG</span>
+          <span style={{ fontSize: "18px", fontWeight: 800, color: "#27833D", fontFamily: "'Inter', sans-serif" }}>PAYG</span>
           <span style={{
             fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em",
             color: "#6B7280", background: "rgba(107,114,128,0.15)",
@@ -54,8 +54,8 @@ export default function AdminLayout() {
               padding: "10px 12px", borderRadius: "10px",
               marginBottom: "4px",
               color: isActive ? "#fff" : "#6B7280",
-              background: isActive ? "rgba(37,99,235,0.15)" : "transparent",
-              borderLeft: isActive ? "3px solid #2563EB" : "3px solid transparent",
+              background: isActive ? "rgba(39,131,61,0.15)" : "transparent",
+              borderLeft: isActive ? "3px solid #27833D" : "3px solid transparent",
               textDecoration: "none",
               fontSize: "14px", fontWeight: isActive ? 600 : 400,
               transition: "all 0.15s",
@@ -72,17 +72,17 @@ export default function AdminLayout() {
         <div style={{
           display: "flex", alignItems: "center", gap: "10px",
           padding: "10px 12px", borderRadius: "10px",
-          background: "rgba(37,99,235,0.05)",
+          background: "rgba(39,131,61,0.05)",
           marginBottom: "8px",
         }}>
           <div style={{
             width: "32px", height: "32px", borderRadius: "8px",
-            background: "#2563EB", display: "flex", alignItems: "center", justifyContent: "center",
+            background: "#27833D", display: "flex", alignItems: "center", justifyContent: "center",
           }}>
             <span className="material-symbols-rounded" style={{ fontSize: "16px", color: "#fff" }}>admin_panel_settings</span>
           </div>
           <div>
-            <p style={{ margin: 0, color: "#fff", fontSize: "13px", fontWeight: 600 }}>paygcontact1</p>
+            <p style={{ margin: 0, color: "#fff", fontSize: "13px", fontWeight: 600 }}>{admin?.username || "Administrator"}</p>
             <p style={{ margin: 0, color: "#374151", fontSize: "11px" }}>Super Admin</p>
           </div>
         </div>
@@ -109,7 +109,7 @@ export default function AdminLayout() {
     <div style={{
       display: "flex", minHeight: "100vh",
       background: "#0a0a0f",
-      fontFamily: "'DM Sans', sans-serif",
+      fontFamily: "'Inter', sans-serif",
     }}>
       {/* Desktop sidebar */}
       <div style={{

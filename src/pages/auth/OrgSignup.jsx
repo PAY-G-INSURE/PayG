@@ -109,7 +109,7 @@ export default function OrgSignup() {
           </div>
         </div>
 
-        <div className="auth-page__right" style={{ background: 'linear-gradient(135deg, var(--teal-dark) 0%, var(--primary-dark) 100%)' }}>
+        <div className="auth-page__right" style={{ background: 'var(--primary-dark)' }}>
           <div className="auth-page__right-inner">
             <blockquote className="auth-quote">
               <p>"Built for cooperatives, trade unions, and the communities that hold Africa together."</p>

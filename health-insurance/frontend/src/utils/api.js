@@ -1,50 +1,44 @@
-// API utility — swap VITE_API_BASE_URL in .env to point at your Express server
-// All functions here mirror the expected REST endpoints
+const BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
 
-const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
-
-async function request(method, path, body) {
-  const token = localStorage.getItem('payg_token')
-  const res = await fetch(`${BASE}${path}`, {
+async function request(method, path, body, token = localStorage.getItem('payg_token')) {
+  if (!BASE) throw new Error('API is not configured. Set VITE_API_BASE_URL for this deployment.')
+  const response = await fetch(`${BASE}${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    ...(body ? { body: JSON.stringify(body) } : {}),
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
   })
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ message: 'Request failed' }))
-    throw new Error(err.message || 'Request failed')
-  }
-  return res.json()
+  const data = await response.json().catch(() => ({ message: 'Request failed' }))
+  if (!response.ok) throw new Error(data.message || 'Request failed')
+  return data
 }
 
-// Auth
 export const api = {
   auth: {
-    sendOtp: (phone) => request('POST', '/auth/send-otp', { phone }),           // POST /api/auth/send-otp
-    verifyOtp: (phone, otp) => request('POST', '/auth/verify-otp', { phone, otp }), // POST /api/auth/verify-otp → { token, user, isNew }
-    updateProfile: (data) => request('PUT', '/auth/profile', data),             // PUT /api/auth/profile
+    sendOtp: (contact) => request('POST', '/auth/send-otp', typeof contact === 'string' ? { phone: contact } : contact, null),
+    verifyOtp: (contact, otp) => request('POST', '/auth/verify-otp', typeof contact === 'string' ? { phone: contact, otp } : { ...contact, otp }, null),
+    updateProfile: (data) => request('PUT', '/auth/profile', data),
     me: () => request('GET', '/auth/me'),
   },
   subscription: {
-    get: () => request('GET', '/subscription'),                                  // GET /api/subscription
-    changePlan: (planId) => request('POST', '/subscription/change', { planId }), // POST /api/subscription/change
-    cancel: () => request('POST', '/subscription/cancel'),                       // POST /api/subscription/cancel
+    get: () => request('GET', '/subscription'),
+    changePlan: (planId) => request('POST', '/subscription/change', { planId }),
+    cancel: (reason) => request('POST', '/subscription/cancel', reason ? { reason } : {}),
   },
   payments: {
-    initialize: (amount) => request('POST', '/payments/initialize', { amount }), // POST /api/payments/initialize → { reference }
-    verify: (reference) => request('POST', '/payments/verify', { reference }),   // POST /api/payments/verify
-    list: () => request('GET', '/payments'),                                     // GET /api/payments
+    initialize: (amount) => request('POST', '/payments/initialize', { amount }),
+    verify: (reference) => request('POST', '/payments/verify', { reference }),
+    list: () => request('GET', '/payments'),
   },
   claims: {
-    submit: (data) => request('POST', '/claims', data),                          // POST /api/claims
-    list: () => request('GET', '/claims'),                                       // GET /api/claims
+    submit: (data) => request('POST', '/claims', data),
+    list: () => request('GET', '/claims'),
   },
   notifications: {
-    list: () => request('GET', '/notifications'),                                 // GET /api/notifications
-    markRead: (id) => request('PUT', `/notifications/${id}/read`),               // PUT /api/notifications/:id/read
+    list: () => request('GET', '/notifications'),
+    markRead: (id) => request('PUT', `/notifications/${id}/read`),
     markAllRead: () => request('PUT', '/notifications/read-all'),
   },
   airtime: {

@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext.jsx'
 
 const T = {
-  s0: '#0D1117', s1: '#161B22', s2: '#21262D',
-  t4: '#2DD4BF', t6: '#0D9488',
-  ink: '#F0F6FC', muted: '#8B949E', border: '#30363D',
-  green: '#34D399', orange: '#FB923C', red: '#F87171',
+  s0: '#0A1F12', s1: '#102A18', s2: '#173A23',
+  t4: '#65C37A', t6: '#27833D',
+  ink: '#F0F6FC', muted: '#8B949E', border: '#2D4D35',
+  green: '#5FBA72', orange: '#9DBB75', red: '#F87171',
   amber: '#F59E0B',
 }
 
@@ -26,10 +26,10 @@ const css = `
     color: ${T.muted}; font-family: inherit; font-size: 13px; font-weight: 700;
     cursor: pointer; transition: all 0.18s;
   }
-  .ob-seg.active { border-color: ${T.t4}; background: rgba(45,212,191,0.08); color: ${T.t4}; }
+  .ob-seg.active { border-color: ${T.t4}; background: rgba(101,195,122,0.08); color: ${T.t4}; }
   .teal-btn {
-    width: 100%; background: linear-gradient(135deg, ${T.t4}, ${T.t6});
-    color: #0D1117; font-weight: 800; font-size: 15px; font-family: inherit;
+    width: 100%; background: var(--t6);
+    color: #0A1F12; font-weight: 800; font-size: 15px; font-family: inherit;
     border: none; border-radius: 14px; height: 52px; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: opacity 0.15s, transform 0.1s; margin-top: 24px;
@@ -48,7 +48,7 @@ const css = `
     background: ${T.s2}; text-align: left; cursor: pointer;
     transition: all 0.18s; font-family: inherit;
   }
-  .plan-btn.selected { border-color: ${T.t4}; background: rgba(45,212,191,0.07); }
+  .plan-btn.selected { border-color: ${T.t4}; background: rgba(101,195,122,0.07); }
   .label {
     display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
     text-transform: uppercase; color: ${T.muted}; margin-bottom: 7px;
@@ -114,8 +114,8 @@ export default function Onboarding() {
   }
 
   const planOptions = [
-    { id: 'Basic',    price: '₦500/mo',   benefit: 'Clinic visits',             icon: 'local_hospital',   iconBg: 'rgba(45,212,191,0.12)',   iconColor: T.t4 },
-    { id: 'Standard', price: '₦1,000/mo', benefit: 'General care + virtual',    icon: 'health_and_safety', iconBg: 'linear-gradient(135deg,#2DD4BF,#0D9488)', iconColor: '#0D1117', featured: true },
+    { id: 'Basic',    price: '₦500/mo',   benefit: 'Clinic visits',             icon: 'local_hospital',   iconBg: 'rgba(101,195,122,0.12)',   iconColor: T.t4 },
+    { id: 'Standard', price: '₦1,000/mo', benefit: 'General care + virtual',    icon: 'health_and_safety', iconBg: 'var(--t6)', iconColor: '#0A1F12', featured: true },
     { id: 'Premium',  price: '₦2,000/mo', benefit: 'Full coverage',             icon: 'workspace_premium', iconBg: 'rgba(245,158,11,0.12)',   iconColor: T.amber },
   ]
 
@@ -136,10 +136,10 @@ export default function Onboarding() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40 }}>
           <div style={{
             width: 36, height: 36, borderRadius: 11,
-            background: `linear-gradient(135deg, ${T.t4}, ${T.t6})`,
+            background: `var(--t6)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <span className="icon" style={{ color: '#0D1117', fontSize: 20 }}>shield</span>
+            <span className="icon" style={{ color: '#0A1F12', fontSize: 20 }}>shield</span>
           </div>
           <span style={{ fontWeight: 900, fontSize: 20, color: T.t4, letterSpacing: -0.5 }}>PAYG</span>
         </div>
@@ -162,12 +162,12 @@ export default function Onboarding() {
                 <div style={{
                   width: 30, height: 30, borderRadius: 10, flexShrink: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: done ? T.green : active ? `linear-gradient(135deg,${T.t4},${T.t6})` : T.s2,
+                  background: done ? T.green : active ? `var(--t6)` : T.s2,
                   border: done || active ? 'none' : `1px solid ${T.border}`,
                 }}>
                   <span className="icon" style={{
                     fontSize: 14,
-                    color: done || active ? (done ? '#0D1117' : '#0D1117') : T.muted,
+                    color: done || active ? (done ? '#0A1F12' : '#0A1F12') : T.muted,
                   }}>
                     {done ? 'check' : s.icon}
                   </span>
@@ -190,7 +190,7 @@ export default function Onboarding() {
         {/* Mobile progress bar */}
         <div style={{ height: 3, background: T.border, margin: '0 -24px' }}>
           <div style={{
-            height: '100%', background: `linear-gradient(90deg,${T.t4},${T.t6})`,
+            height: '100%', background: `var(--t6)`,
             borderRadius: 99, width: `${progress}%`, transition: 'width 0.5s ease',
           }} />
         </div>
@@ -202,7 +202,7 @@ export default function Onboarding() {
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
               <div style={{
                 width: 88, height: 88, borderRadius: '50%',
-                background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.2)',
+                background: 'rgba(101,195,122,0.1)', border: '1px solid rgba(101,195,122,0.2)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24,
               }}>
                 <span className="icon" style={{ color: T.t4, fontSize: 44 }}>shield</span>
@@ -219,9 +219,9 @@ export default function Onboarding() {
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0' }}>
                     <div style={{
                       width: 24, height: 24, borderRadius: '50%',
-                      background: `linear-gradient(135deg,${T.t4},${T.t6})`,
+                      background: `var(--t6)`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: '#0D1117', fontSize: 11, fontWeight: 900, flexShrink: 0,
+                      color: '#0A1F12', fontSize: 11, fontWeight: 900, flexShrink: 0,
                     }}>{i + 1}</div>
                     <p style={{ fontSize: 14, fontWeight: 600, color: T.ink }}>{s}</p>
                   </div>

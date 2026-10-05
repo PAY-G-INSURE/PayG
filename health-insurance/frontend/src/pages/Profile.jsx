@@ -10,18 +10,18 @@ import PageHeader from '../components/PageHeader.jsx'
 */
 const CSS_VARS = `
   :root {
-    --surface-0:  #0D1117;
-    --surface-1:  #161B22;
-    --surface-2:  #21262D;
-    --teal-400:   #2DD4BF;
-    --teal-600:   #0D9488;
-    --teal-glow:  rgba(45,212,191,0.15);
+    --surface-0:  #0A1F12;
+    --surface-1:  #102A18;
+    --surface-2:  #173A23;
+    --teal-400:   #65C37A;
+    --teal-600:   #27833D;
+    --teal-glow:  rgba(101,195,122,0.15);
     --ink:        #F0F6FC;
     --ink-muted:  #8B949E;
-    --border:     #30363D;
-    --green:      #34D399;
+    --border:     #2D4D35;
+    --green:      #5FBA72;
     --green-dim:  rgba(52,211,153,0.12);
-    --orange:     #FB923C;
+    --orange:     #9DBB75;
     --orange-dim: rgba(251,146,60,0.12);
   }
 `
@@ -85,7 +85,7 @@ function Field({ label, value, editing, name, type = 'text', options, onChange }
 }
 
 /* ─── Shared modal CTA buttons ──────────────────────────── */
-const btnPrimary  = 'flex-1 bg-gradient-to-r from-[var(--teal-400)] to-[var(--teal-600)] text-[var(--surface-0)] font-display font-bold py-4 rounded-3xl hover:opacity-90 active:scale-95 transition-all'
+const btnPrimary  = 'flex-1 bg-[var(--t6)] text-[var(--surface-0)] font-display font-bold py-4 rounded-3xl hover:opacity-90 active:scale-95 transition-all'
 const btnSecondary = 'flex-1 bg-[var(--surface-2)] text-[var(--ink)] font-display font-bold py-4 rounded-3xl hover:bg-[var(--border)] active:scale-95 transition-all'
 
 /* ─── Personal Details modal ────────────────────────────── */
@@ -252,8 +252,8 @@ const FAQS = [
     a: 'Any registered partner hospital. Show your policy number at the reception. A full directory is coming soon in-app.',
   },
   {
-    q: 'How does airtime deduction work?',
-    a: 'We deduct 10%, 20%, or 50% of every airtime recharge and add it straight to your wallet. No bank card needed.',
+    q: 'Can I fund my wallet with mobile airtime?',
+    a: 'Airtime billing is not currently available. Fund your wallet through the Paystack payment option in the app.',
   },
 ]
 
@@ -373,13 +373,13 @@ export default function Profile() {
             {/* Profile hero card */}
             <div
               className="rounded-3xl p-6 relative overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, var(--teal-600) 0%, #0A6B63 50%, #053D38 100%)' }}
+              style={{ background: 'var(--t6)' }}
             >
               {/* glow bloom */}
               <div style={{
                 position: 'absolute', top: -80, right: -60,
                 width: 280, height: 280,
-                background: 'radial-gradient(circle, rgba(45,212,191,0.2) 0%, transparent 65%)',
+                background: 'none',
                 pointerEvents: 'none',
               }} />
               <div className="relative z-10">
@@ -427,7 +427,7 @@ export default function Profile() {
                 <div className="flex items-center gap-3">
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: 'var(--teal-glow)', border: '1px solid rgba(45,212,191,0.2)' }}
+                    style={{ background: 'var(--teal-glow)', border: '1px solid rgba(101,195,122,0.2)' }}
                   >
                     <span className="icon text-[var(--teal-400)] text-xl">health_and_safety</span>
                   </div>

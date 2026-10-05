@@ -46,6 +46,9 @@ async function sendSMS(to, body) {
   const sms = getClient();
 
   if (!sms) {
+    if (process.env.NODE_ENV !== "development" && process.env.NODE_ENV !== "test") {
+      return { success: false, error: "Africa's Talking SMS is not configured" };
+    }
     // Development fallback — log to console
     console.log(`\n📱 [SMS DEV LOG]`);
     console.log(`   To: ${phone}`);

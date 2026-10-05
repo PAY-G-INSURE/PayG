@@ -3,10 +3,10 @@ import { useApp } from '../context/AppContext.jsx'
 import AppLayout from '../components/AppLayout.jsx'
 
 const T = {
-  s0: '#0D1117', s1: '#161B22', s2: '#21262D',
-  t4: '#2DD4BF', t6: '#0D9488',
-  ink: '#F0F6FC', muted: '#8B949E', border: '#30363D',
-  green: '#34D399', orange: '#FB923C',
+  s0: '#0A1F12', s1: '#102A18', s2: '#173A23',
+  t4: '#65C37A', t6: '#27833D',
+  ink: '#F0F6FC', muted: '#8B949E', border: '#2D4D35',
+  green: '#5FBA72', orange: '#9DBB75',
 }
 
 const css = `
@@ -16,7 +16,7 @@ const css = `
     border-radius: 20px;
     transition: border-color 0.2s;
   }
-  .dash-card:hover { border-color: rgba(45,212,191,0.2); }
+  .dash-card:hover { border-color: rgba(101,195,122,0.2); }
   .quick-action {
     padding: 14px 10px;
     border-radius: 14px;
@@ -29,7 +29,7 @@ const css = `
     cursor: pointer;
     transition: border-color 0.18s, background 0.18s;
   }
-  .quick-action:hover { border-color: ${T.t4}; background: rgba(45,212,191,0.06); color: ${T.t4}; }
+  .quick-action:hover { border-color: ${T.t4}; background: rgba(101,195,122,0.06); color: ${T.t4}; }
   .tx-row { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid ${T.border}; }
   .tx-row:last-child { border-bottom: none; }
 `
@@ -128,7 +128,7 @@ export default function Dashboard() {
           {/* WALLET CARD — full width, teal gradient with glow bloom */}
           <div style={{
             gridColumn: '1 / -1',
-            background: `linear-gradient(135deg, ${T.t6} 0%, #0A6B63 50%, #053D38 100%)`,
+            background: `var(--t6)`,
             borderRadius: 22, padding: 28,
             position: 'relative', overflow: 'hidden',
           }}>
@@ -136,7 +136,7 @@ export default function Dashboard() {
             <div style={{
               position: 'absolute', top: -80, right: -60,
               width: 320, height: 320,
-              background: 'radial-gradient(circle, rgba(45,212,191,0.25) 0%, transparent 65%)',
+              background: 'none',
               pointerEvents: 'none',
             }} />
             <div style={{ position: 'relative', zIndex: 1 }}>
@@ -186,8 +186,8 @@ export default function Dashboard() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
               <div style={{
                 width: 44, height: 44, borderRadius: 13,
-                background: 'linear-gradient(135deg, rgba(45,212,191,0.15), rgba(13,148,136,0.2))',
-                border: '1px solid rgba(45,212,191,0.2)',
+                background: 'var(--t6)',
+                border: '1px solid rgba(101,195,122,0.2)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <span className="icon" style={{ color: T.t4, fontSize: 22 }}>shield</span>

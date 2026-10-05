@@ -50,14 +50,14 @@ const sections = [
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-[#0D1117] text-[#F0F6FC]">
+    <div className="min-h-screen bg-[#0A1F12] text-[#F0F6FC]">
       <PageHeader title="Terms of Service" subtitle="Last updated: January 1, 2026"/>
 
       <div className="px-5 pt-4 pb-16 max-w-md mx-auto">
         
         {/* Intro Alert Box styled for dark UI */}
-        <div className="bg-[#161B22] border border-[#2DD4BF]/10 rounded-2xl p-4 mb-6 flex gap-2 items-start">
-          <span className="icon text-[#2DD4BF] text-xl flex-shrink-0 mt-0.5">description</span>
+        <div className="bg-[#102A18] border border-[#65C37A]/10 rounded-2xl p-4 mb-6 flex gap-2 items-start">
+          <span className="icon text-[#65C37A] text-xl flex-shrink-0 mt-0.5">description</span>
           <p className="text-xs text-[#8B949E] font-display leading-relaxed">
             Please read these terms carefully before using the PAYG platform. These terms constitute a legally binding agreement between you and PayGo Technologies Ltd.
           </p>
@@ -67,20 +67,20 @@ export default function Terms() {
         <div className="flex flex-col gap-6">
           {sections.map((s, i) => (
             <div key={i}>
-              <h3 className="font-display font-bold text-[#2DD4BF] text-base mb-2">{s.title}</h3>
+              <h3 className="font-display font-bold text-[#65C37A] text-base mb-2">{s.title}</h3>
               <p className="text-sm text-[#8B949E] leading-relaxed whitespace-pre-line">{s.body}</p>
             </div>
           ))}
         </div>
 
         {/* Footer Navigation Action Links */}
-        <div className="mt-10 pt-6 border-t border-[#30363D]">
+        <div className="mt-10 pt-6 border-t border-[#2D4D35]">
           <p className="text-xs text-[#8B949E] mb-3 font-display">Related documents:</p>
           <div className="flex gap-4">
-            <Link to="/privacy" className="text-xs text-[#2DD4BF] font-display font-bold hover:underline flex items-center gap-1">
+            <Link to="/privacy" className="text-xs text-[#65C37A] font-display font-bold hover:underline flex items-center gap-1">
               <span className="icon-o text-sm">privacy_tip</span> Privacy Policy
             </Link>
-            <a href="mailto:legal@payg.ng" className="text-xs text-[#2DD4BF] font-display font-bold hover:underline flex items-center gap-1">
+            <a href="mailto:legal@payg.ng" className="text-xs text-[#65C37A] font-display font-bold hover:underline flex items-center gap-1">
               <span className="icon-o text-sm">mail</span> Contact Legal
             </a>
           </div>
