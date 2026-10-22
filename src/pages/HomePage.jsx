@@ -7,7 +7,7 @@ import { useCountUp } from 'react-countup'
 import {
   Shield, Users, BarChart3, ArrowRight,
   Lock, Calendar, UserX, Wallet,
-  CheckCircle, ChevronRight, Smartphone
+  CheckCircle, ChevronRight
 } from 'lucide-react'
 import PageWrapper from '../components/ui/PageWrapper'
 import { fadeUp, staggerContainer, transition } from '../utils/animations'
@@ -19,7 +19,7 @@ import * as THREE from 'three'
 /* ─────────────────────────────────────────
    3D ANIMATED SHIELD
 ───────────────────────────────────────── */
-import { Float, Environment, useTexture } from '@react-three/drei'
+import { Environment } from '@react-three/drei'
 function AnimatedLogo() {
   const groupRef = useRef()
   const [geometry, setGeometry] = useState(null)
@@ -109,14 +109,11 @@ const heroSlides = [
 
 function HeroSection() {
   const [current, setCurrent] = useState(0)
-  const [prev, setPrev] = useState(null)
   const navigate = useNavigate()
   const { scrollY } = useScroll()
   const y = useTransform(scrollY, [0, 800], [0, 40])
-  const opacity = useTransform(scrollY, [0, 800], [1, 0.15])
   useEffect(() => {
     const id = setInterval(() => {
-      setPrev(current)
       setCurrent(c => (c + 1) % heroSlides.length)
     }, 5500)
     return () => clearInterval(id)
@@ -125,7 +122,6 @@ function HeroSection() {
   const slide = heroSlides[current]
 
   const goTo = (i) => {
-    setPrev(current)
     setCurrent(i)
   }
 
@@ -293,8 +289,8 @@ const stats = [
   { value: 6, suffix: '+', label: 'States Covered' },
 ]
 
-function StatItem({ value, suffix, label, inView, delay }) {
-  const { countUp, start } = useCountUp({
+function StatItem({ value, suffix, label, inView }) {
+  const { start } = useCountUp({
     ref: `counter-${label}`,
     end: value,
     duration: 2.2,
@@ -303,7 +299,7 @@ function StatItem({ value, suffix, label, inView, delay }) {
 
   useEffect(() => {
     if (inView) start()
-  }, [inView])
+  }, [inView, start])
 
   return (
     <div className="stats-bar__item">

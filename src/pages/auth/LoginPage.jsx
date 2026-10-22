@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useNavigate, Link } from 'react-router-dom'
 import { Shield, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import PageWrapper from '../../components/ui/PageWrapper'
-import { transition } from '../../utils/animations'
+
 import './Auth.css'
 
 export default function LoginPage() {

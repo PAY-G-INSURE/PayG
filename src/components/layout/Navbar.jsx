@@ -14,7 +14,7 @@ const links = [
 ]
 
 export default function Navbar() {
-  const [open, setOpen]       = useState(false)
+  const [openPath, setOpenPath] = useState(null)
   const [scrolled, setScrolled] = useState(false)
   const navigate  = useNavigate()
   const location  = useLocation()
@@ -25,7 +25,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => { setOpen(false) }, [location.pathname])
+  const open = openPath === location.pathname
 
   return (
     <motion.header
@@ -89,7 +89,7 @@ export default function Navbar() {
         {/* Mobile hamburger */}
         <button
           className="navbar__hamburger"
-          onClick={() => setOpen(o => !o)}
+          onClick={() => setOpenPath(open ? null : location.pathname)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
         >

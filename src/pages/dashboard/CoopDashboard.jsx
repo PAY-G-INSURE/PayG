@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Shield, Bell, Users, LogOut, Settings,
   Plus, Calendar, Wallet, ChevronDown,
-  Download, UserPlus, Home, X, Building2, FileText
+  Download, UserPlus, Home, X, Building2
 } from 'lucide-react'
 import { fadeUp, staggerContainer, transition } from '../../utils/animations'
 import './Dashboard.css'

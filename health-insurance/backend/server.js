@@ -41,8 +41,8 @@ app.get('/health', async (req, res) => {
   try {
     await db.health()
     res.json({ status: 'ok', service: 'PAYG API', version: '2.0.0', timestamp: new Date().toISOString(), db: 'connected' })
-  } catch (error) {
-    res.status(503).json({ status: 'unavailable', service: 'PAYG API', timestamp: new Date().toISOString(), db: 'unavailable', message: error.message })
+  } catch  {
+    res.status(503).json({ status: 'unavailable', service: 'PAYG API', timestamp: new Date().toISOString(), db: 'unavailable' })
   }
 })
 
@@ -56,7 +56,7 @@ app.use('/api/notifications', notificationRoutes)
 app.use('/api/admin', adminRoutes)
 
 app.use((req, res) => res.status(404).json({ success: false, message: `Route ${req.method} ${req.path} not found` }))
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error('Unhandled error:', err)
   res.status(err.status || 500).json({
     success: false,

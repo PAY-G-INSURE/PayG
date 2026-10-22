@@ -98,7 +98,7 @@ export default function Onboarding() {
     if (step === 1 && !validatePersonal()) return
     if (step === 2 && !validateKin()) return
     if (step === STEPS.length - 1) {
-      const prices = { Basic: 500, Standard: 1000, Premium: 2000 }
+
       try {
         const profile = await import('../utils/api.js').then(({ api }) => api.auth.updateProfile({
           firstName: form.firstName, lastName: form.lastName, dateOfBirth: form.dob, gender: form.gender,

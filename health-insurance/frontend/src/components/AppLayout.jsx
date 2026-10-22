@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext.jsx'
-import logo from '../assets/logo.png'
+
 
 /*
   CSS custom properties — same token set as Dashboard, Onboarding, and Profile.

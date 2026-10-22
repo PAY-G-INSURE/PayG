@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Shield, Bell, User, LogOut, Settings,
   Plus, BarChart3, Calendar, ChevronDown,
-  CreditCard, FileText, Home, X
+  CreditCard, Home, X
 } from 'lucide-react'
 import { fadeUp, staggerContainer, transition } from '../../utils/animations'
 import './Dashboard.css'

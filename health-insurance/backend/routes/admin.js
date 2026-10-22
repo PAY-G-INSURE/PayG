@@ -10,7 +10,7 @@ const { createNotification } = require('../utils/notifications')
 
 const router = express.Router()
 const loginLimit = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, message: { success: false, message: 'Too many login attempts. Try again later.' } })
-const PLAN_PRICE = { Basic: 500, Standard: 1000, Premium: 2000 }
+
 const titleCase = value => String(value || '').split('_').map(part => part ? part[0].toUpperCase() + part.slice(1) : '').join(' ')
 const statusKey = value => String(value || '').toLowerCase().replaceAll(' ', '_')
 

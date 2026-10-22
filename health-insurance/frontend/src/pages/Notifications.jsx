@@ -70,21 +70,7 @@ const sectionLabel = (text) => (
   </p>
 )
 
-const notifCard = (children, { divided } = {}) => (
-  <div style={{
-    background: T.s1, border: `1px solid ${T.border}`,
-    borderRadius: 18, overflow: 'hidden',
-    ...(divided ? { display: 'flex', flexDirection: 'column' } : {}),
-  }}>
-    {divided
-      ? children.map((child, i) => (
-          <div key={i} style={{ borderBottom: i < children.length - 1 ? `1px solid ${T.border}` : 'none' }}>
-            {child}
-          </div>
-        ))
-      : children}
-  </div>
-)
+
 
 export default function Notifications() {
   const { notifications, markRead, markAllRead, unreadCount } = useApp()

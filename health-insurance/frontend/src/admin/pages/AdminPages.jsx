@@ -38,7 +38,7 @@ export function AdminUsers() {
       .finally(() => setLoading(false));
   }, [search, filter, page]);
 
-  useEffect(() => { fetchUsers(); }, [fetchUsers]);
+  useEffect(() => { const timer = setTimeout(fetchUsers, 150); return () => clearTimeout(timer); }, [fetchUsers]);
 
   async function handleToggleActive(user) {
     setUpdating(true);
@@ -207,7 +207,7 @@ export function AdminTransactions() {
       .finally(() => setLoading(false));
   }, [search, page]);
 
-  useEffect(() => { fetchTxns(); }, [fetchTxns]);
+  useEffect(() => { const timer = setTimeout(fetchTxns, 150); return () => clearTimeout(timer); }, [fetchTxns]);
 
   const totalRevenue = txns.filter(t => t.status === "success").reduce((s, t) => s + (t.amount || 0), 0);
 

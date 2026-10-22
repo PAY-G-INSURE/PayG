@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../context/AppContext.jsx'
 import AppLayout from '../components/AppLayout.jsx'
@@ -68,6 +69,11 @@ function StatusBadge({ status }) {
 }
 
 export default function Dashboard() {
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 60000)
+    return () => clearInterval(timer)
+  }, [])
   const navigate = useNavigate()
   const { user, subscription, transactions, notifications } = useApp()
 
@@ -78,7 +84,7 @@ export default function Dashboard() {
   const unread    = notifications.filter(n => !n.read).length
 
   const daysLeft = subscription.coverageUntil
-    ? Math.max(0, Math.ceil((new Date(subscription.coverageUntil).getTime() - Date.now()) / 86400000))
+    ? Math.max(0, Math.ceil((new Date(subscription.coverageUntil).getTime() - now) / 86400000))
     : 0
 
   const formatDate = d => d ? new Date(d).toLocaleDateString(undefined, { day: '2-digit', month: 'short' }) : ''

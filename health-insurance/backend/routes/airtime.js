@@ -9,7 +9,7 @@ router.get('/settings', protect, async (req, res) => {
     const subscription = await Subscription.findOne({ user: req.user._id })
     if (!subscription) return res.status(404).json({ success: false, message: 'No subscription found' })
     res.json({ success: true, available: false, settings: { enabled: false, percentage: 10, network: null } })
-  } catch (error) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to get airtime settings' })
   }
 })
@@ -30,7 +30,7 @@ router.post('/settings', protect, async (req, res) => {
     )
     if (!subscription) return res.status(404).json({ success: false, message: 'Subscription not found' })
     res.json({ success: true, available: false, message: 'Airtime deduction is unavailable and remains disabled.', settings: subscription.airtimeDeduction })
-  } catch (error) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to update airtime settings' })
   }
 })

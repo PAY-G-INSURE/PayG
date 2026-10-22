@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+
 import { useApp } from '../context/AppContext.jsx'
 import AppLayout from '../components/AppLayout.jsx'
 import PageHeader from '../components/PageHeader.jsx'
@@ -91,7 +91,7 @@ const label = (text) => (
 
 export default function Claims() {
   const { claims, submitClaim, subscription } = useApp()
-  const navigate = useNavigate()
+
   const [showForm, setShowForm] = useState(false)
   const [form, setForm]         = useState({ type: '', description: '', amount: '' })
   const [errors, setErrors]     = useState({})

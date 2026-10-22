@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
       .select('-__v')
 
     res.json({ success: true, claims })
-  } catch (err) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to fetch claims' })
   }
 })
@@ -96,7 +96,7 @@ router.get('/:id', async (req, res) => {
     const claim = await Claim.findOne({ _id: req.params.id, user: req.user._id })
     if (!claim) return res.status(404).json({ success: false, message: 'Claim not found' })
     res.json({ success: true, claim })
-  } catch (err) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to fetch claim' })
   }
 })

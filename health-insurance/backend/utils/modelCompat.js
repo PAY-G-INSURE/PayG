@@ -74,7 +74,7 @@ function model(table, { transform = fieldsToApp, decorate = row => row } = {}) {
     findOne(filter = {}) {
       const query = createQuery(table, filter, decorateRow)
       query.stateOne = true
-      const original = query.exec
+
       query.exec = async () => {
         const rows = await db.select(table, { ...toFilter(filter), limit: 1 })
         return rows[0] ? decorateRow(rows[0]) : null

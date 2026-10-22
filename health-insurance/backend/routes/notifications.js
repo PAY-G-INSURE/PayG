@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     const unreadCount = await Notification.countDocuments({ user: req.user._id, read: false })
 
     res.json({ success: true, notifications, unreadCount })
-  } catch (err) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to fetch notifications' })
   }
 })
@@ -32,7 +32,7 @@ router.put('/:id/read', async (req, res) => {
     )
     if (!notification) return res.status(404).json({ success: false, message: 'Notification not found' })
     res.json({ success: true, notification })
-  } catch (err) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to update notification' })
   }
 })
@@ -45,7 +45,7 @@ router.put('/read-all', async (req, res) => {
       { read: true, readAt: new Date() }
     )
     res.json({ success: true, message: 'All notifications marked as read' })
-  } catch (err) {
+  } catch  {
     res.status(500).json({ success: false, message: 'Failed to update notifications' })
   }
 })

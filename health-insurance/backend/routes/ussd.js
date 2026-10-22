@@ -49,15 +49,15 @@ router.post("/", express.urlencoded({ extended: false }), async (req, res) => {
   if (!expectedToken || expectedBytes.length !== providedBytes.length || !crypto.timingSafeEqual(expectedBytes, providedBytes)) {
     return res.status(401).type('text/plain').send('END Service unavailable.');
   }
-  const { sessionId, phoneNumber, text, networkCode } = req.body;
+  const { phoneNumber, text } = req.body;
 
   // Split the input chain so we can navigate multi-step menus
   // text is cumulative: "1", "1*2", "1*2*500" etc.
-  const parts = text ? text.split("*") : [];
-  const level = parts.length; // how deep we are
-  const current = parts[level - 1] || ""; // most recent input
 
-  let response = "";
+   // how deep we are
+   // most recent input
+
+  let response;
 
   try {
     // Normalise phone for DB lookup

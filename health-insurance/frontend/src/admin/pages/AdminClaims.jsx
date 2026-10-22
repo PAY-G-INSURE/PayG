@@ -55,7 +55,7 @@ export default function AdminClaims() {
       .finally(() => setLoading(false));
   }, [filter, search, page]);
 
-  useEffect(() => { fetchClaims(); }, [fetchClaims]);
+  useEffect(() => { const timer = setTimeout(fetchClaims, 150); return () => clearTimeout(timer); }, [fetchClaims]);
 
   async function handleUpdateStatus(newStatus) {
     if (!selected) return;

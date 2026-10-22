@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator')
 
 const Subscription = require('../models/Subscription')
 const { protect } = require('../middleware/auth')
-const notif = require('../utils/notifications')
+
 const { sendSMS } = require('../utils/sms')
 
 const router = express.Router()

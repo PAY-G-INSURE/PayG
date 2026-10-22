@@ -25,6 +25,8 @@ export function AppProvider({ children }) {
     setClaims(userClaims.claims || [])
     setNotifications(notes.notifications || [])
   }, [applySubscription])
+  // refresh awaits the API batch before setting state; this effect restores an existing login.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { refresh().catch(() => {}) }, [refresh])
   const login = useCallback((userData) => {
     if (!userData || typeof userData !== 'object') return
@@ -72,4 +74,6 @@ export function AppProvider({ children }) {
     setSubscription, changePlan, cancelSubscription, addPayment, submitClaim, markRead, markAllRead, updateAirtimeSettings,
     unreadCount: notifications.filter(n => !n.read).length }}>{children}</Ctx.Provider>
 }
+// Context hooks intentionally share this module; edits may trigger a full reload.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useApp = () => useContext(Ctx)
