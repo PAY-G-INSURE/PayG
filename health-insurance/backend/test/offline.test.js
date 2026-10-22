@@ -1,6 +1,11 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
 
+test('patched messaging SDK retains its expected local interface', () => {
+  const sdk = require('africastalking')({ apiKey: 'offline-fixture', username: 'sandbox' })
+  assert.equal(typeof sdk.SMS.send, 'function')
+})
+
 test('health failure hides provider details and private routes reject anonymous requests', async () => {
   process.env.NODE_ENV = 'test'
   const { db } = require('../utils/db')
