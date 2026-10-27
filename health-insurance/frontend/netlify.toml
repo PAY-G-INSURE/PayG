@@ -16,3 +16,23 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ─── Environments ────────────────────────────────────────────
+# main          → production   https://payg-health.netlify.app
+# develop       → staging      https://develop--payg-health.netlify.app
+# pull requests → previews     https://deploy-preview-<n>--payg-health.netlify.app
+# Previews and staging talk to the staging API so testing never touches production data.
+# VITE_PAYSTACK_PUBLIC_KEY is set per deploy context in Netlify (Site configuration →
+# Environment variables): pk_live_ for Production, pk_test_ for every other context.
+
+[context.production.environment]
+  VITE_API_BASE_URL = "https://payg-health-backend.onrender.com/api"
+
+[context.develop.environment]
+  VITE_API_BASE_URL = "https://payg-health-backend-staging.onrender.com/api"
+
+[context.deploy-preview.environment]
+  VITE_API_BASE_URL = "https://payg-health-backend-staging.onrender.com/api"
+
+[context.branch-deploy.environment]
+  VITE_API_BASE_URL = "https://payg-health-backend-staging.onrender.com/api"

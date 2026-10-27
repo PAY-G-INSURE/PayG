@@ -15,10 +15,20 @@ const ussdRoutes = require('./routes/ussd')
 const airtimeRoutes = require('./routes/airtime')
 const adminRoutes = require('./routes/admin')
 
+// FRONTEND_URL is a comma-separated list of origins. A `*` matches one subdomain label,
+// so `https://*--payg-health.netlify.app` admits Netlify deploy previews and branch deploys.
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5174')
+  .split(',')
+  .map(value => value.trim())
+  .filter(Boolean)
+  .map(value => value.includes('*')
+    ? new RegExp(`^${value.split('*').map(part => part.replace(/[.+?^${}()|[\]\\/]/g, '\\$&')).join('[a-z0-9-]+')}$`)
+    : value)
+
 const app = express()
 app.use(helmet())
 app.use(cors({
-  origin: (process.env.FRONTEND_URL || 'http://localhost:5174').split(',').map(value => value.trim()),
+  origin: allowedOrigins,
   credentials: true,
 }))
 
