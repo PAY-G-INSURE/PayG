@@ -18,3 +18,17 @@ npm run dev
 ```
 
 Configure each package's environment from its `.env.example` before connecting external services. See the package scripts for lint, build, and backend commands.
+
+## Environments and workflow
+
+| Environment | Branch | Health app | API |
+| --- | --- | --- | --- |
+| Production | `main` | https://payg-health.netlify.app | `payg-health-backend` on Render |
+| Staging | `develop` | https://develop--payg-health.netlify.app | `payg-health-backend-staging` on Render |
+| Preview | each pull request | `deploy-preview-<n>--payg-health.netlify.app` | staging API |
+
+1. Branch from `develop` (`feature/<name>`) and open a pull request into `develop`. CI and a Netlify deploy preview run on the PR.
+2. After review and green checks, merge into `develop`; the staging site and API update for testing.
+3. Release by opening a pull request from `develop` into `main`. Merging it deploys production.
+
+Nobody pushes directly to `main` or `develop`. Per-environment URLs live in each `netlify.toml`; secrets and Paystack keys are set per deploy context in Netlify and per service in Render. Staging uses its own Supabase project and test-mode Paystack and Africa's Talking credentials.

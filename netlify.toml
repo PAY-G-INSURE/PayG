@@ -16,3 +16,15 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ─── Environments ────────────────────────────────────────────
+# Production links to the live health app; every other deploy links to its staging build.
+
+[context.production.environment]
+  VITE_HEALTH_APP_URL = "https://payg-health.netlify.app/"
+
+[context.deploy-preview.environment]
+  VITE_HEALTH_APP_URL = "https://develop--payg-health.netlify.app/"
+
+[context.branch-deploy.environment]
+  VITE_HEALTH_APP_URL = "https://develop--payg-health.netlify.app/"

@@ -60,7 +60,7 @@ const insuranceTypes = [
     icon: Heart,
     label: 'Health Insurance',
     desc: 'Protect yourself and your family against medical expenses.',
-    external: 'https://payg-health.netlify.app/',
+    external: import.meta.env.VITE_HEALTH_APP_URL || 'https://payg-health.netlify.app/',
   },
   {
     key: 'life',
