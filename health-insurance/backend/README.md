@@ -41,15 +41,24 @@ Create a Node Web Service for `health-insurance/backend`; use `npm install` for 
 
 After deploy, check `https://<service>.onrender.com/health`. It confirms that Supabase settings are present; make a protected API request as well to confirm the credentials and schema work.
 
-## Vercel frontend deployment
+Run two services, each with its own Supabase project and credentials:
 
-1. Create a Vercel project from the repository and set its Root Directory to `health-insurance/frontend`.
-2. Use the detected Vite defaults (`npm run build`, output directory `dist`). `vercel.json` rewrites app routes to `index.html` for client-side routing.
-3. Add `VITE_API_BASE_URL=https://<service>.onrender.com/api` and `VITE_PAYSTACK_PUBLIC_KEY=pk_live_...` in Vercel Project Settings > Environment Variables. Add them to Production and Preview only as appropriate, then redeploy.
-4. In Render, set `FRONTEND_URL` to the exact deployed Vercel origin (for example `https://payg.vercel.app`). Include approved preview origins only if needed.
-5. Open the deployed app, sign in with OTP, top up through Paystack, and verify the wallet/transaction in the app and Supabase. Sign in to the admin area with the server-configured credentials and check users, claims, transactions, and notifications.
+| Service | Branch | `FRONTEND_URL` | Credentials |
+| --- | --- | --- | --- |
+| `payg-health-backend` | `main` | `https://payg-health.netlify.app` | live Paystack, production Supabase |
+| `payg-health-backend-staging` | `develop` | `https://develop--payg-health.netlify.app,https://*--payg-health.netlify.app` | test Paystack, AT sandbox, staging Supabase |
 
-Deploy in this order: apply the Supabase schema (and import existing MongoDB data if needed), configure and deploy the Render API, verify `/health`, then deploy the Vercel frontend with the Render API URL. Keep all Supabase service role, JWT, Paystack secret, Africa's Talking, and admin password hash values in Render only. Only the API URL and Paystack public key belong in Vercel.
+Set `NODE_ENV=production` on both; `development` returns OTPs in API responses.
+
+## Netlify frontend deployment
+
+1. The `payg-health` Netlify site builds `health-insurance/frontend` (Base directory) with `npm run build`, publishing `dist`. Production deploys from `main`.
+2. Under Site configuration > Build & deploy > Branches and deploy contexts, add `develop` as a branch deploy and keep deploy previews on for pull requests.
+3. `VITE_API_BASE_URL` is set per context in `health-insurance/frontend/netlify.toml`: production uses `payg-health-backend`, everything else uses `payg-health-backend-staging`.
+4. Set `VITE_PAYSTACK_PUBLIC_KEY` in Site configuration > Environment variables with a different value per context: `pk_live_...` for Production, `pk_test_...` for Deploy previews and Branch deploys.
+5. Open the deployed app, sign in with OTP, top up through Paystack, and verify the wallet/transaction in the app and Supabase. Sign in to the admin area with the server-configured credentials and check users, claims, transactions, and notifications. Do this on staging before every release to `main`.
+
+Deploy in this order: apply the Supabase schema (and import existing MongoDB data if needed), configure and deploy the Render API, verify `/health`, then deploy the Netlify frontend. Keep all Supabase service role, JWT, Paystack secret, Africa's Talking, and admin password hash values in Render only. Only the API URL and Paystack public key belong in Netlify.
 
 Generate an admin password hash locally with `node -e "console.log(require('bcryptjs').hashSync('choose-a-long-password', 12))"`, then place the resulting hash in Render's `ADMIN_PASSWORD_HASH` setting. Set a fresh username/password; old hardcoded browser credentials are no longer valid.
 
