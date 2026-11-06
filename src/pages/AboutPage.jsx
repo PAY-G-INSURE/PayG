@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useNavigate } from 'react-router-dom'
 import { Target, Eye, ArrowRight } from 'lucide-react'
 import PageWrapper from '../components/ui/PageWrapper'
 import { fadeUp, staggerContainer, transition } from '../utils/animations'
@@ -29,6 +30,7 @@ function RevealSection({ children, delay = 0, className = '' }) {
 }
 
 export default function AboutPage() {
+  const navigate = useNavigate()
 
   return (
     <PageWrapper style={{ paddingTop: 'var(--nav-h)' }}>
@@ -188,7 +190,7 @@ export default function AboutPage() {
             <div className="about-cta__actions">
               <motion.button
                 className="btn btn-teal btn-lg"
-                onClick={() => { window.location.href = '/health-insurance/plans' }}
+                onClick={() => navigate('/plans')}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: .97 }}
               >
@@ -196,7 +198,7 @@ export default function AboutPage() {
               </motion.button>
               <motion.button
                 className="btn btn-outline btn-lg"
-                onClick={() => { window.location.href = '/health-insurance/auth' }}
+                onClick={() => navigate('/choose-insurance')}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: .97 }}
               >

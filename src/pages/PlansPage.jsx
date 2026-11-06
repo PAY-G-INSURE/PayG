@@ -32,18 +32,6 @@ const plans = {
       coverage: ['All standard benefits', 'Surgery cover', 'Maternity care', 'Vision care'],
     },
   ],
-  life: [
-    {
-      name: 'Term Life Basic',
-      premium: '₦1,500/mo',
-      coverage: ['₦500K death benefit', 'Accidental death rider'],
-    },
-    {
-      name: 'Term Life Standard',
-      premium: '₦3,500/mo',
-      coverage: ['₦2M death benefit', 'Total disability', 'Critical illness'],
-    },
-  ],
 }
 
 const paymentOptions = [
@@ -59,7 +47,7 @@ const insuranceTypes = [
     icon: Heart,
     label: 'Health Insurance',
     desc: 'Protect yourself and your family against medical expenses.',
-    external: import.meta.env.VITE_HEALTH_APP_URL || 'https://payg-health.netlify.app/',
+    external: '/health-insurance/plans',
   },
   {
     key: 'life',
@@ -67,6 +55,7 @@ const insuranceTypes = [
     label: 'Life Insurance',
     desc: 'Provide financial security for your loved ones.',
     external: null,
+    comingSoon: true,
   },
 ]
 
@@ -75,6 +64,7 @@ export default function PlansPage() {
   const [activeInsurer, setActiveInsurer] = useState(null)
   const [activePlan,    setActivePlan   ] = useState(null)
   const [activePayment, setActivePayment] = useState(null)
+  const [notice, setNotice] = useState('')
 
   const reset = (level) => {
     if (level <= 1) { setActiveInsurer(null) }
@@ -132,12 +122,18 @@ export default function PlansPage() {
                   key={type.key}
                   className={`plans-type-card ${activeType === type.key ? 'plans-type-card--active' : ''}`}
                   onClick={() => {
-  if (type.external) {
-    window.open(type.external, '_blank')
-  } else {
-    setActiveType(type.key)
-    reset(1)
-  }
+                    if (type.comingSoon) {
+                      setNotice('Life Insurance is coming soon. Health Insurance is available now.')
+                      setActiveType(null)
+                      reset(1)
+                      return
+                    }
+                    if (type.external) {
+                      window.location.assign(type.external)
+                      return
+                    }
+                    setActiveType(type.key)
+                    reset(1)
 }}
                 >
                   <type.icon
@@ -147,6 +143,7 @@ export default function PlansPage() {
                   />
                   <h3 className="plans-type-card__title">{type.label}</h3>
                   <p  className="plans-type-card__desc">{type.desc}</p>
+                  {type.comingSoon && <span className="plans-type-card__external">Coming soon</span>}
                   {type.external && (
   <span className="plans-type-card__external">
     <ExternalLink size={13} /> Redirects to partner site
@@ -165,6 +162,7 @@ export default function PlansPage() {
                 </motion.button>
               ))}
             </div>
+            {notice && <p role="status" style={{ color: '#e0b65f', marginTop: '1rem', fontWeight: 700 }}>{notice}</p>}
           </div>
 
           {/* Step 2 */}

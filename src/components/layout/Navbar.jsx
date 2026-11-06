@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import logoWhite from '../../assets/logo-white.png'
@@ -8,8 +8,8 @@ import './Navbar.css'
 const links = [
   { label: 'Home',             path: '/' },
   { label: 'About',            path: '/about' },
-  { label: 'Insurance Plans',  path: '/health-insurance/plans', external: true },
-  { label: 'For Cooperatives', path: '/health-insurance/plans', external: true },
+  { label: 'Insurance Plans',  path: '/plans' },
+  { label: 'For Cooperatives', path: '/plans' },
   { label: 'Contact',          path: '/contact' },
 ]
 
@@ -17,7 +17,7 @@ export default function Navbar() {
   const [openPath, setOpenPath] = useState(null)
   const [scrolled, setScrolled] = useState(false)
   const location  = useLocation()
-  const goInsurance = (path) => { window.location.href = `/health-insurance${path}` }
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -80,13 +80,13 @@ export default function Navbar() {
         <div className="navbar__actions">
           <button
             className="btn btn-outline btn-sm"
-            onClick={() => goInsurance('/auth')}
+            onClick={() => navigate('/choose-insurance')}
           >
             Login
           </button>
           <button
             className="btn btn-teal btn-sm"
-            onClick={() => goInsurance('/auth')}
+            onClick={() => navigate('/choose-insurance')}
           >
             Get Started
           </button>
@@ -142,14 +142,14 @@ export default function Navbar() {
                 <button
                   className="btn btn-outline"
                   style={{ width: '100%' }}
-                  onClick={() => goInsurance('/auth')}
+                  onClick={() => navigate('/choose-insurance')}
                 >
                   Login
                 </button>
                 <button
                   className="btn btn-teal"
                   style={{ width: '100%' }}
-                  onClick={() => goInsurance('/auth')}
+                  onClick={() => navigate('/choose-insurance')}
                 >
                   Get Started
                 </button>

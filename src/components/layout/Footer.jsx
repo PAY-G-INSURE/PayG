@@ -7,8 +7,8 @@ import './Footer.css'
 const cols = {
   Company: [
     { label: 'About Us',         path: '/about' },
-    { label: 'Insurance Plans',  path: '/health-insurance/plans', external: true },
-    { label: 'For Cooperatives', path: '/health-insurance/plans', external: true },
+    { label: 'Insurance Plans',  path: '/plans' },
+    { label: 'For Cooperatives', path: '/plans' },
   ],
   Legal: [
     { label: 'Privacy Policy', path: '/privacy' },

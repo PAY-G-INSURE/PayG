@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect } from 'react'
 import Lenis from 'lenis'
@@ -9,15 +9,14 @@ import Footer from './components/layout/Footer'
 import HomePage            from './pages/HomePage'
 import AboutPage           from './pages/AboutPage'
 import PlansPage           from './pages/PlansPage'
-import JoinPage            from './pages/auth/JoinPage'
 import IndividualSignup    from './pages/auth/IndividualSignup'
 import OrgSignup           from './pages/auth/OrgSignup'
 import OTPPage             from './pages/auth/OTPPage'
 import SuccessPage         from './pages/auth/SuccessPage'
-import LoginPage           from './pages/auth/LoginPage'
 import ForgotPasswordPage  from './pages/auth/ForgotPasswordPage'
 import IndividualDashboard from './pages/dashboard/IndividualDashboard'
 import CoopDashboard       from './pages/dashboard/CoopDashboard'
+import ProductChoicePage   from './pages/ProductChoicePage'
 
 const DASHBOARD_ROUTES = ['/dashboard', '/coop-dashboard']
 
@@ -54,12 +53,13 @@ function AppShell() {
           <Route path="/"                  element={<HomePage />} />
           <Route path="/about"             element={<AboutPage />} />
           <Route path="/plans"             element={<PlansPage />} />
-          <Route path="/join"              element={<JoinPage />} />
+          <Route path="/choose-insurance"  element={<ProductChoicePage />} />
+          <Route path="/join"              element={<Navigate to="/choose-insurance" replace />} />
           <Route path="/signup/individual" element={<IndividualSignup />} />
           <Route path="/signup/organisation" element={<OrgSignup />} />
           <Route path="/verify"            element={<OTPPage />} />
           <Route path="/success"           element={<SuccessPage />} />
-          <Route path="/login"             element={<LoginPage />} />
+          <Route path="/login"             element={<Navigate to="/choose-insurance" replace />} />
           <Route path="/forgot-password"   element={<ForgotPasswordPage />} />
           <Route path="/dashboard"         element={<IndividualDashboard />} />
           <Route path="/coop-dashboard"    element={<CoopDashboard />} />
