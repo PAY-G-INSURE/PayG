@@ -49,7 +49,7 @@ export default function Footer() {
             </p>
             <div className="footer__contact">
               <span><Mail size={13} /> hello@payginsure.com</span>
-              <span><Phone size={13} /> +234 800 000 0000</span>
+              <a href="tel:07041400319"><Phone size={13} /> 07041400319</a>
               <span><MapPin size={13} /> Lagos, Nigeria</span>
             </div>
             <div className="footer__socials">
