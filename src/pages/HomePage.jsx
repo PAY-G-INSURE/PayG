@@ -569,7 +569,6 @@ function HowItWorks() {
 const checks = ['No fixed premiums', 'Cancel anytime', 'Instant activation']
 
 function CTABanner() {
-  const navigate = useNavigate()
   const goInsurance = (path) => { window.location.href = path }
   const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true })
 

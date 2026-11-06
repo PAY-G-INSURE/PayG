@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { useNavigate } from 'react-router-dom'
 import { Target, Eye, ArrowRight } from 'lucide-react'
 import PageWrapper from '../components/ui/PageWrapper'
 import { fadeUp, staggerContainer, transition } from '../utils/animations'
@@ -30,7 +29,6 @@ function RevealSection({ children, delay = 0, className = '' }) {
 }
 
 export default function AboutPage() {
-  const navigate = useNavigate()
 
   return (
     <PageWrapper style={{ paddingTop: 'var(--nav-h)' }}>

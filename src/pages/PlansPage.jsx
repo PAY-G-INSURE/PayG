@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
 import {
   Heart, Shield, Users, Handshake,
   CalendarCheck, Smartphone, ArrowRight, Check, ExternalLink
@@ -76,7 +75,6 @@ export default function PlansPage() {
   const [activeInsurer, setActiveInsurer] = useState(null)
   const [activePlan,    setActivePlan   ] = useState(null)
   const [activePayment, setActivePayment] = useState(null)
-  const navigate = useNavigate()
 
   const reset = (level) => {
     if (level <= 1) { setActiveInsurer(null) }
