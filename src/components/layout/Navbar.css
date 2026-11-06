@@ -5,10 +5,39 @@
   transition: box-shadow .3s ease, background .3s ease;
 }
 .navbar--scrolled {
-  background: transparent;
+  background: #fff;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  box-shadow: none;
+  box-shadow: var(--shadow-md);
+}
+.navbar--scrolled .navbar__logo-img {
+  filter: brightness(0) saturate(100%) invert(29%) sepia(59%) saturate(691%) hue-rotate(82deg) brightness(92%) contrast(91%);
+}
+.navbar--scrolled .navbar__link,
+.navbar--scrolled .navbar__link--active {
+  color: var(--teal);
+}
+.navbar--scrolled .navbar__link:hover {
+  color: var(--primary-dark);
+  background: rgba(21, 128, 61, .08);
+}
+.navbar--scrolled .navbar__link-underline {
+  background: var(--teal);
+}
+.navbar--scrolled .btn-outline {
+  color: var(--teal);
+  border-color: var(--teal);
+}
+.navbar--scrolled .btn-outline:hover {
+  color: #fff;
+  background: var(--teal);
+}
+.navbar--scrolled .navbar__hamburger {
+  color: var(--teal);
+  background: rgba(21, 128, 61, .08);
+}
+.navbar--scrolled .navbar__hamburger:hover {
+  background: rgba(21, 128, 61, .14);
 }
 .navbar__inner {
   display: flex; align-items: center;
