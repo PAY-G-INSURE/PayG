@@ -1,7 +1,6 @@
-const BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+const BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '')
 
 async function request(method, path, body, token = localStorage.getItem('payg_token')) {
-  if (!BASE) throw new Error('API is not configured. Set VITE_API_BASE_URL for this deployment.')
   const response = await fetch(`${BASE}${path}`, {
     method,
     headers: {

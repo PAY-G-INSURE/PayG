@@ -1,8 +1,7 @@
-const BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+const BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '')
 const TOKEN_KEY = 'payg_admin_token'
 
 async function fetchJson(path, options = {}, token = sessionStorage.getItem(TOKEN_KEY)) {
-  if (!BASE) throw new Error('API is not configured. Set VITE_API_BASE_URL.')
   const response = await fetch(`${BASE}/admin${path}`, {
     ...options,
     headers: {

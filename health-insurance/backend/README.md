@@ -41,23 +41,23 @@ Create a Node Web Service for `health-insurance/backend`; use `npm install` for 
 
 After deploy, check `https://<service>.onrender.com/health`. It confirms that Supabase settings are present; make a protected API request as well to confirm the credentials and schema work.
 
-## Vercel frontend deployment
+## Vercel Services deployment
 
-The repository root is the single Vercel project. Keep its Root Directory at the repository root. The root build creates the main site and copies this frontend into `/health-insurance/`; Vercel rewrites nested app routes to its own `index.html`.
+The repository root is one Vercel Services project with three services declared in the root `vercel.json`: the marketing app, this insurance frontend, and this Express API. Set the Vercel Root Directory to the repository root and the project framework to **Services**. Public routes are `/`, `/health-insurance/*`, and `/api/*`, all on the same domain. The frontend calls `/api` on that same origin by default.
 
-Set `VITE_API_BASE_URL` to this API's deployed URL ending in `/api` and `VITE_PAYSTACK_PUBLIC_KEY` to the public key for the intended environment in Vercel Project Settings. Set them for the environments where the app should be available, then redeploy. The API's `FRONTEND_URL` must allow the production site's exact origin. Add only the preview origins that should be permitted.
+Configure the backend service's environment with `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `JWT_SECRET`, `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`, `PAYSTACK_SECRET_KEY`, and any Africa's Talking credentials. Set `FRONTEND_URL` to the production site origin and any preview origins that should be allowed. Configure `VITE_PAYSTACK_PUBLIC_KEY` for the frontend build. Leave `VITE_API_BASE_URL` unset so the browser uses same-origin `/api`. Never put server secrets in `VITE_` variables. After setting or changing variables, redeploy the project.
 
-Deploy in this order: apply the Supabase schema (and import existing MongoDB data if needed), configure and deploy the API, verify `/health`, then deploy the root Vercel project. Keep the Supabase service role key, JWT secret, Paystack secret, Africa's Talking credentials, and admin password hash in the API environment only. Only the API URL and Paystack public key belong in Vercel.
+Apply the Supabase schema before deploying, then verify `/health` reports `db: connected`. The API's `/health` endpoint and all `/api/*` routes are routed to the backend service.
 
-Generate an admin password hash locally with `node -e "console.log(require('bcryptjs').hashSync('choose-a-long-password', 12))"`, then place the resulting hash in Render's `ADMIN_PASSWORD_HASH` setting. Set a fresh username/password; old hardcoded browser credentials are no longer valid.
+Generate an admin password hash locally with `node -e "console.log(require('bcryptjs').hashSync('choose-a-long-password', 12))"`, then place the resulting hash in the backend service's `ADMIN_PASSWORD_HASH` setting. Set a fresh username/password; old hardcoded browser credentials are no longer valid.
 
 ## Africa's Talking notes
 
 - SMS requires valid AT API credentials and an approved sender ID.
-- Set `AT_USSD_CALLBACK_TOKEN` to a long random value and set the USSD callback URL to `https://<service>.onrender.com/api/ussd?token=<encoded-token>` in the AT dashboard.
+- Set `AT_USSD_CALLBACK_TOKEN` to a long random value and set the USSD callback URL to `https://<production-domain>/api/ussd?token=<encoded-token>` in the AT dashboard.
 - Standard USSD session charging is not a callback confirming a separate wallet payment. USSD airtime top-ups and direct deduction callbacks are disabled; users can fund wallets using Paystack until a carrier-approved billing service can verify actual charges.
 - The USSD callback itself is not proof of a carrier airtime charge. The existing USSD top-up path must not be treated as real reverse billing unless the selected carrier product provides a verified charge result. Africa's Talking airtime send API distributes airtime; it does not deduct a user's balance.
 
 ## Paystack webhook
 
-Set the Paystack webhook URL to `https://<service>.onrender.com/api/payments/webhook`. The route validates Paystack's signature against the raw request body.
+Set the Paystack webhook URL to `https://<production-domain>/api/payments/webhook`. The route validates Paystack's signature against the raw request body.

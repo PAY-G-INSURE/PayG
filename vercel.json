@@ -1,10 +1,29 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "services": {
+    "payg_main": {
+      "root": "./",
+      "rewrites": [
+        { "source": "/(.*)", "destination": "/index.html" }
+      ]
+    },
+    "payg_health": {
+      "root": "health-insurance/frontend",
+      "rewrites": [
+        { "source": "/(.*)", "destination": "/index.html" }
+      ]
+    },
+    "payg_api": {
+      "root": "health-insurance/backend",
+      "framework": "express"
+    }
+  },
   "rewrites": [
-    { "source": "/health-insurance", "destination": "/health-insurance/index.html" },
-    { "source": "/health-insurance/(.*)", "destination": "/health-insurance/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api", "destination": { "service": "payg_api", "path": "/api" } },
+    { "source": "/api/(.*)", "destination": { "service": "payg_api" } },
+    { "source": "/health", "destination": { "service": "payg_api", "path": "/health" } },
+    { "source": "/health-insurance", "destination": { "service": "payg_health", "path": "/" } },
+    { "source": "/health-insurance/:path*", "destination": { "service": "payg_health", "path": "/:path*" } },
+    { "source": "/(.*)", "destination": { "service": "payg_main" } }
   ]
 }

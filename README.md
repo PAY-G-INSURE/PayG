@@ -12,18 +12,18 @@ npm run dev
 # In another terminal
 cd health-insurance/frontend
 npm ci
-npm run dev
+npm run dev -- --port 5174
 ```
+
+Open the health frontend at `http://localhost:5174/health-insurance/`. Its Vite dev server proxies `/api` to the backend on port 5000.
 
 Configure each package's environment from its `.env.example` before connecting external services. See the package scripts for build and backend commands.
 
-## Vercel deployment
+## Vercel Services deployment
 
-The root Vercel project builds both Vite apps and assembles the insurance app under `dist/health-insurance/`, so both apps can use one domain. Keep the Vercel Root Directory at the repository root. Routes under `/health-insurance/*` open the insurance app; all other routes open the marketing site.
+The repository root is one Vercel Services project with three independently built services: the marketing site at `/`, the insurance app at `/health-insurance/`, and the Express API at `/api/`. Keep the Vercel Root Directory at the repository root and set the project framework to **Services**. `vercel.json` declares each service and routes requests on the shared domain. The health frontend uses same-origin `/api` requests by default, so it needs no separate API hostname.
 
-Set `VITE_API_BASE_URL` to the deployed API URL ending in `/api` and `VITE_PAYSTACK_PUBLIC_KEY` to the public key for the target environment in Vercel's project settings. The API remains a separate Node service. Set its `FRONTEND_URL` to the production site origin and any specific preview origins that should be allowed. Keep server secrets in the API environment, never in frontend `VITE_` variables.
-
-Build with `npm run build`. The output should include `dist/index.html` and `dist/health-insurance/index.html`.
+Set `VITE_PAYSTACK_PUBLIC_KEY` in Vercel for the frontend build. Leave `VITE_API_BASE_URL` unset so the insurance app uses same-origin `/api`. Configure the API service's Supabase, JWT, admin, Paystack secret, Africa's Talking, and `FRONTEND_URL` values in Vercel's environment settings. Keep server secrets out of all `VITE_` variables. After setting the variables, redeploy to apply them.
 
 ## Environments and release workflow
 
