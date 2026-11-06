@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm --prefix health-insurance/frontend install --include=dev && npm --prefix health-insurance/frontend run build && node scripts/assemble-vercel.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

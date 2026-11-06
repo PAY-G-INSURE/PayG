@@ -78,7 +78,7 @@ const heroSlides = [
     heading: 'Health Cover for\nThe Way You Work',
     sub: 'Flexible health contributions for traders, artisans, and people with irregular income.',
     cta: 'Get Started',
-    ctaPath: '/join',
+    ctaPath: '/health-insurance/auth',
     bg: 'var(--primary-dark)',
   },
   {
@@ -86,7 +86,7 @@ const heroSlides = [
     heading: 'Health Cover for\nOrganised Groups',
     sub: 'Coordinate health contributions through your cooperative or trade union.',
     cta: 'For Cooperatives',
-    ctaPath: '/plans',
+    ctaPath: '/health-insurance/plans',
     bg: 'var(--primary)',
   },
   {
@@ -94,7 +94,7 @@ const heroSlides = [
     heading: 'Choose a Plan\nThat Suits You',
     sub: 'Review available plans and contribution amounts before you enroll.',
     cta: 'View Plans',
-    ctaPath: '/plans',
+    ctaPath: '/health-insurance/plans',
     bg: 'var(--primary-dark)',
   },
   {
@@ -110,6 +110,7 @@ const heroSlides = [
 function HeroSection() {
   const [current, setCurrent] = useState(0)
   const navigate = useNavigate()
+  const goInsurance = (path) => { window.location.href = path }
   const { scrollY } = useScroll()
   const y = useTransform(scrollY, [0, 800], [0, 40])
   useEffect(() => {
@@ -194,7 +195,9 @@ function HeroSection() {
           >
             <motion.button
               className="btn btn-teal btn-lg"
-              onClick={() => navigate(slide.ctaPath)}
+              onClick={() => slide.ctaPath.startsWith('/health-insurance')
+                ? goInsurance(slide.ctaPath)
+                : navigate(slide.ctaPath)}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: .97 }}
             >
@@ -202,7 +205,7 @@ function HeroSection() {
             </motion.button>
             <motion.button
               className="btn btn-outline btn-lg"
-              onClick={() => navigate('/plans')}
+              onClick={() => goInsurance('/health-insurance/plans')}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: .97 }}
             >
@@ -567,6 +570,7 @@ const checks = ['No fixed premiums', 'Cancel anytime', 'Instant activation']
 
 function CTABanner() {
   const navigate = useNavigate()
+  const goInsurance = (path) => { window.location.href = path }
   const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true })
 
   return (
@@ -603,7 +607,7 @@ function CTABanner() {
         >
           <motion.button
             className="btn btn-teal btn-lg"
-            onClick={() => navigate('/join')}
+            onClick={() => goInsurance('/health-insurance/auth')}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: .97 }}
           >
@@ -611,7 +615,7 @@ function CTABanner() {
           </motion.button>
           <motion.button
             className="btn btn-outline btn-lg"
-            onClick={() => navigate('/plans')}
+            onClick={() => goInsurance('/health-insurance/plans')}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: .97 }}
           >

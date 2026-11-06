@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import logoWhite from '../../assets/logo-white.png'
@@ -8,16 +8,16 @@ import './Navbar.css'
 const links = [
   { label: 'Home',             path: '/' },
   { label: 'About',            path: '/about' },
-  { label: 'Insurance Plans',  path: '/plans' },
-  { label: 'For Cooperatives', path: '/plans' },
+  { label: 'Insurance Plans',  path: '/health-insurance/plans', external: true },
+  { label: 'For Cooperatives', path: '/health-insurance/plans', external: true },
   { label: 'Contact',          path: '/contact' },
 ]
 
 export default function Navbar() {
   const [openPath, setOpenPath] = useState(null)
   const [scrolled, setScrolled] = useState(false)
-  const navigate  = useNavigate()
   const location  = useLocation()
+  const goInsurance = (path) => { window.location.href = `/health-insurance${path}` }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -52,7 +52,13 @@ export default function Navbar() {
           {links.map(link => {
             const active = location.pathname === link.path
             return (
-              <Link
+              link.external ? <a
+                key={link.label}
+                href={link.path}
+                className={`navbar__link ${active ? 'navbar__link--active' : ''}`}
+              >
+                {link.label}
+              </a> : <Link
                 key={link.label}
                 to={link.path}
                 className={`navbar__link ${active ? 'navbar__link--active' : ''}`}
@@ -74,13 +80,13 @@ export default function Navbar() {
         <div className="navbar__actions">
           <button
             className="btn btn-outline btn-sm"
-            onClick={() => navigate('/login')}
+            onClick={() => goInsurance('/auth')}
           >
             Login
           </button>
           <button
             className="btn btn-teal btn-sm"
-            onClick={() => navigate('/join')}
+            onClick={() => goInsurance('/auth')}
           >
             Get Started
           </button>
@@ -120,9 +126,11 @@ export default function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * .06 + .1 }}
                 >
-                  <Link to={link.path} className="navbar__mobile-link">
+                  {link.external ? <a href={link.path} className="navbar__mobile-link">
                     {link.label}
-                  </Link>
+                  </a> : <Link to={link.path} className="navbar__mobile-link">
+                    {link.label}
+                  </Link>}
                 </motion.div>
               ))}
               <motion.div
@@ -134,14 +142,14 @@ export default function Navbar() {
                 <button
                   className="btn btn-outline"
                   style={{ width: '100%' }}
-                  onClick={() => navigate('/login')}
+                  onClick={() => goInsurance('/auth')}
                 >
                   Login
                 </button>
                 <button
                   className="btn btn-teal"
                   style={{ width: '100%' }}
-                  onClick={() => navigate('/join')}
+                  onClick={() => goInsurance('/auth')}
                 >
                   Get Started
                 </button>

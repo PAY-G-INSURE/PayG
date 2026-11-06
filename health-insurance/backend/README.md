@@ -43,13 +43,11 @@ After deploy, check `https://<service>.onrender.com/health`. It confirms that Su
 
 ## Vercel frontend deployment
 
-1. Create a Vercel project from the repository and set its Root Directory to `health-insurance/frontend`.
-2. Use the detected Vite defaults (`npm run build`, output directory `dist`). `vercel.json` rewrites app routes to `index.html` for client-side routing.
-3. Add `VITE_API_BASE_URL=https://<service>.onrender.com/api` and `VITE_PAYSTACK_PUBLIC_KEY=pk_live_...` in Vercel Project Settings > Environment Variables. Add them to Production and Preview only as appropriate, then redeploy.
-4. In Render, set `FRONTEND_URL` to the exact deployed Vercel origin (for example `https://payg.vercel.app`). Include approved preview origins only if needed.
-5. Open the deployed app, sign in with OTP, top up through Paystack, and verify the wallet/transaction in the app and Supabase. Sign in to the admin area with the server-configured credentials and check users, claims, transactions, and notifications.
+The repository root is the single Vercel project. Keep its Root Directory at the repository root. The root build creates the main site and copies this frontend into `/health-insurance/`; Vercel rewrites nested app routes to its own `index.html`.
 
-Deploy in this order: apply the Supabase schema (and import existing MongoDB data if needed), configure and deploy the Render API, verify `/health`, then deploy the Vercel frontend with the Render API URL. Keep all Supabase service role, JWT, Paystack secret, Africa's Talking, and admin password hash values in Render only. Only the API URL and Paystack public key belong in Vercel.
+Set `VITE_API_BASE_URL` to this API's deployed URL ending in `/api` and `VITE_PAYSTACK_PUBLIC_KEY` to the public key for the intended environment in Vercel Project Settings. Set them for the environments where the app should be available, then redeploy. The API's `FRONTEND_URL` must allow the production site's exact origin. Add only the preview origins that should be permitted.
+
+Deploy in this order: apply the Supabase schema (and import existing MongoDB data if needed), configure and deploy the API, verify `/health`, then deploy the root Vercel project. Keep the Supabase service role key, JWT secret, Paystack secret, Africa's Talking credentials, and admin password hash in the API environment only. Only the API URL and Paystack public key belong in Vercel.
 
 Generate an admin password hash locally with `node -e "console.log(require('bcryptjs').hashSync('choose-a-long-password', 12))"`, then place the resulting hash in Render's `ADMIN_PASSWORD_HASH` setting. Set a fresh username/password; old hardcoded browser credentials are no longer valid.
 

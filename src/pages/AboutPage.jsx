@@ -190,7 +190,7 @@ export default function AboutPage() {
             <div className="about-cta__actions">
               <motion.button
                 className="btn btn-teal btn-lg"
-                onClick={() => navigate('/plans')}
+                onClick={() => { window.location.href = '/health-insurance/plans' }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: .97 }}
               >
@@ -198,7 +198,7 @@ export default function AboutPage() {
               </motion.button>
               <motion.button
                 className="btn btn-outline btn-lg"
-                onClick={() => navigate('/join')}
+                onClick={() => { window.location.href = '/health-insurance/auth' }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: .97 }}
               >

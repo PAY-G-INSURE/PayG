@@ -27,7 +27,7 @@ export default function App() {
   return (
     <AdminProvider>
       <AppProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/health-insurance">
           <Routes>
 
             {/* ── Public routes ── */}

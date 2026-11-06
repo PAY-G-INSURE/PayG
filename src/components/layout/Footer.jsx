@@ -7,8 +7,8 @@ import './Footer.css'
 const cols = {
   Company: [
     { label: 'About Us',         path: '/about' },
-    { label: 'Insurance Plans',  path: '/plans' },
-    { label: 'For Cooperatives', path: '/plans' },
+    { label: 'Insurance Plans',  path: '/health-insurance/plans', external: true },
+    { label: 'For Cooperatives', path: '/health-insurance/plans', external: true },
   ],
   Legal: [
     { label: 'Privacy Policy', path: '/privacy' },
@@ -74,9 +74,11 @@ export default function Footer() {
               <ul className="footer__col-links">
                 {items.map(item => (
                   <li key={item.label}>
-                    <Link to={item.path} className="footer__col-link">
+                    {item.external ? <a href={item.path} className="footer__col-link">
                       {item.label}
-                    </Link>
+                    </a> : <Link to={item.path} className="footer__col-link">
+                      {item.label}
+                    </Link>}
                   </li>
                 ))}
               </ul>

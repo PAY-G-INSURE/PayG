@@ -303,7 +303,7 @@ export default function PlansPage() {
                   {activePayment && (
                     <motion.button
                       className="btn btn-teal btn-lg plans-continue"
-                      onClick={() => navigate('/join')}
+                      onClick={() => { window.location.href = '/health-insurance/auth' }}
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0  }}
                       transition={transition.smooth}

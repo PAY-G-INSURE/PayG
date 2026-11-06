@@ -1,25 +1,31 @@
 # PayG Web and Health Insurance Monorepo
 
-A JavaScript monorepo containing the PayG marketing website, a health-insurance customer frontend, and its Express API. The packages cover public product pages, customer-facing insurance workflows, and provider-backed service operations.
-
-The root `src/` and `public/` directories belong to the marketing site. `health-insurance/frontend/` contains the customer interface and `health-insurance/backend/` contains the API. Root and nested package manifests and lockfiles define their separate dependency sets; sample environment files document integrations.
+PayG contains the marketing website, the health-insurance customer frontend, and its Express API. Root `src/` and `public/` belong to the marketing site; `health-insurance/frontend/` and `health-insurance/backend/` contain the insurance app and API.
 
 ## Run locally
 
 ```sh
-# Marketing site, from the repository root
+# From the repository root
 npm ci
 npm run dev
 
-# In separate terminals, install and run the health-insurance frontend/backend
+# In another terminal
 cd health-insurance/frontend
 npm ci
 npm run dev
 ```
 
-Configure each package's environment from its `.env.example` before connecting external services. See the package scripts for lint, build, and backend commands.
+Configure each package's environment from its `.env.example` before connecting external services. See the package scripts for build and backend commands.
 
-## Environments and workflow
+## Vercel deployment
+
+The root Vercel project builds both Vite apps and assembles the insurance app under `dist/health-insurance/`, so both apps can use one domain. Keep the Vercel Root Directory at the repository root. Routes under `/health-insurance/*` open the insurance app; all other routes open the marketing site.
+
+Set `VITE_API_BASE_URL` to the deployed API URL ending in `/api` and `VITE_PAYSTACK_PUBLIC_KEY` to the public key for the target environment in Vercel's project settings. The API remains a separate Node service. Set its `FRONTEND_URL` to the production site origin and any specific preview origins that should be allowed. Keep server secrets in the API environment, never in frontend `VITE_` variables.
+
+Build with `npm run build`. The output should include `dist/index.html` and `dist/health-insurance/index.html`.
+
+## Environments and release workflow
 
 | Environment | Branch | Health app | API |
 | --- | --- | --- | --- |
@@ -27,8 +33,8 @@ Configure each package's environment from its `.env.example` before connecting e
 | Staging | `develop` | https://develop--payg-health.netlify.app | `payg-health-backend-staging` on Render |
 | Preview | each pull request | `deploy-preview-<n>--payg-health.netlify.app` | staging API |
 
-1. Branch from `develop` (`feature/<name>`) and open a pull request into `develop`. CI and a Netlify deploy preview run on the PR.
+1. Branch from `develop` (`feature/<name>`) and open a pull request into `develop`. CI and a Netlify deploy preview run on the pull request.
 2. After review and green checks, merge into `develop`; the staging site and API update for testing.
 3. Release by opening a pull request from `develop` into `main`. Merging it deploys production.
 
-Nobody pushes directly to `main` or `develop`. Per-environment URLs live in each `netlify.toml`; secrets and Paystack keys are set per deploy context in Netlify and per service in Render. Staging uses its own Supabase project and test-mode Paystack and Africa's Talking credentials.
+Do not push directly to `main` or `develop`. Per-environment URLs live in each `netlify.toml`; secrets and Paystack keys are set per deploy context in Netlify and per service in Render. Staging uses its own Supabase project and test-mode Paystack and Africa's Talking credentials.

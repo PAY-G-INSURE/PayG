@@ -1,4 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/health-insurance", "destination": "/health-insurance/index.html" },
+    { "source": "/health-insurance/(.*)", "destination": "/health-insurance/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
