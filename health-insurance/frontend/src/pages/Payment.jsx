@@ -19,6 +19,7 @@ export default function Payment() {
   const [stage,   setStage]   = useState('form')
   const [error,   setError]   = useState('')
   const [paidRef, setPaidRef] = useState(null)
+  const [creditedAmount, setCreditedAmount] = useState(0)
 
   const remaining = Math.max(0, subscription.planPrice - subscription.walletBalance)
   const progress  = Math.min((subscription.walletBalance / subscription.planPrice) * 100, 100)
@@ -38,9 +39,10 @@ export default function Payment() {
       reference: initialized.reference,
       onSuccess: async (response) => {
         try {
-          await addPayment(response.reference)
-        setPaidRef(response.reference)
-        setStage('success')
+          const result = await addPayment(response.reference)
+          setCreditedAmount(Number(result.allocation?.insurerWallet || 0))
+          setPaidRef(response.reference)
+          setStage('success')
         } catch (err) { setStage('form'); setError(err.message || 'Payment verification failed') }
       },
       onClose: () => { setStage('form'); setError('Payment was cancelled. Try again.') },
@@ -73,11 +75,12 @@ export default function Payment() {
             <span className="icon text-[#65C37A] text-5xl">check_circle</span>
           </div>
           <h2 className="font-display font-extrabold text-2xl mb-1">Payment Successful!</h2>
-          <p className="text-[#8B949E] text-sm mb-6">₦{amt.toLocaleString()} added to your insurance wallet</p>
+          <p className="text-[#8B949E] text-sm mb-6">₦{creditedAmount.toFixed(2)} added to your insurance wallet</p>
           
           <div className="bg-[#102A18] border border-[#2D4D35] rounded-3xl p-5 mb-5 text-left space-y-3">
             {[
               ['Amount',      `₦${amt.toLocaleString()}`],
+              ['Wallet credit', `₦${creditedAmount.toFixed(2)}`],
               ['Reference',   paidRef],
               ['New Balance', `₦${subscription.walletBalance.toLocaleString()}`],
               ['Status',      'Confirmed'],

@@ -17,6 +17,8 @@ The API checks configuration at startup. API requests use the Supabase service r
 
 `users`, `subscriptions`, `transactions`, `claims`, and `notifications` mirror the backend domain records. Their identifiers are UUIDs. `supabase/schema.sql` is the initial schema; apply future schema changes as reviewed SQL migrations and keep the checked-in migration in sync with the project.
 
+For an existing database, apply [`supabase/migrations/20261112_paystack_allocation.sql`](supabase/migrations/20261112_paystack_allocation.sql) in Supabase SQL Editor before deploying the Paystack allocation code. New databases should use the updated `supabase/schema.sql`.
+
 The initial setup creates an empty database. To carry forward existing MongoDB data, export the five collections to JSON arrays, then run `node scripts/import-mongo-json.js <export-directory> --dry-run` followed by the same command without `--dry-run`. The importer uses stable UUIDs for Mongo IDs and must be run only after the schema has been applied. Back up both databases first.
 
 ## Environment variables
